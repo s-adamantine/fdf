@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/23 20:03:18 by sadamant          #+#    #+#             */
+/*   Updated: 2017/09/23 20:22:10 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+void	*ft_memset(void *b, int c, size_t len)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	unsigned char	c1;
+	unsigned char	*b1;
+
+	b1 = (unsigned char *)b;
+	c1 = (unsigned char)c;
+	while (len--)
+	{
+		*b1++ = c1;
+	}
+	return (b);
+}

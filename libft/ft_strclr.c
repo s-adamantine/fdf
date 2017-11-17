@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strclr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/08/07 10:53:05 by sadamant          #+#    #+#             */
+/*   Updated: 2017/10/04 11:44:42 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+void	ft_strclr(char *s)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	if (!s)
+		return ;
+	while (*s)
+		*s++ = '\0';
+}

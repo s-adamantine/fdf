@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/27 11:43:02 by sadamant          #+#    #+#             */
+/*   Updated: 2017/10/02 15:10:32 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	unsigned char		ch;
+	unsigned char		*dest;
+	const unsigned char	*source;
+
+	ch = c;
+	dest = dst;
+	source = src;
+	while (n--)
+	{
+		*dest = *source;
+		if (*source == ch)
+		{
+			return (dest + 1);
+		}
+		source++;
+		dest++;
+	}
+	return (NULL);
+}

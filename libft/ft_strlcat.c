@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/29 20:50:10 by sadamant          #+#    #+#             */
+/*   Updated: 2017/09/30 15:53:59 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
+#include <stdio.h>
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	size_t	ret;
+
+	if (size > ft_strlen(dest))
+	{
+		ret = ft_strlen(src) + ft_strlen(dest);
+		size = size - ft_strlen(dest) - 1;
+		dest = dest + ft_strlen(dest);
+		while (*src && size--)
+		{
+			*dest++ = *src++;
+		}
+		*dest = '\0';
+		return (ret);
+	}
+	else
+	{
+		return (size + ft_strlen(src));
+	}
+}

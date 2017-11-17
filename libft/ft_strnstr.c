@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/21 15:54:49 by sadamant          #+#    #+#             */
+/*   Updated: 2017/10/04 00:40:01 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
+#include <stdio.h>
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+char	*ft_strnstr(const char *big, const char *small, size_t len)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	int	n;
+
+	n = len - ft_strlen(small) + 1;
+	if (ft_strcmp(small, "") == 0)
+	{
+		return ((char *)big);
+	}
+	while (*big && n-- > 0)
+	{
+		if (*big == *small)
+		{
+			if (ft_strncmp(big, small, ft_strlen(small)) == 0)
+			{
+				return ((char *)big);
+			}
+		}
+		big++;
+	}
+	return (NULL);
+}

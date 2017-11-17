@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/08 18:35:59 by sadamant          #+#    #+#             */
+/*   Updated: 2017/09/09 06:24:37 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	char	*destcpy;
+
+	destcpy = dest;
+	while (n-- > 0)
+	{
+		if (*src)
+			*(char *)dest++ = *(char *)src++;
+		else
+			*(char *)dest++ = '\0';
+	}
+	return (destcpy);
+}

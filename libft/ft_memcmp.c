@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/09/22 11:32:50 by sadamant          #+#    #+#             */
+/*   Updated: 2017/09/22 11:54:54 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
 #include "libft.h"
 
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
-
-typedef struct	s_session
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	unsigned char	*bs1;
+	unsigned char	*bs2;
+
+	bs1 = (unsigned char *)s1;
+	bs2 = (unsigned char *)s2;
+	while (n--)
+	{
+		if (*bs1 != *bs2)
+		{
+			return (*bs1 - *bs2);
+		}
+		bs1++;
+		bs2++;
+	}
+	return (0);
+}

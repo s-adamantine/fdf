@@ -1,0 +1,17 @@
+- draw a new image either w/ xpm_to_image or w/ get_data_addr
+	- represented w/ an array of bits per pixel
+	- drawn in new_image (which returns img_ptr)
+- create a representation of the image in a string that's as wide as the screen
+
+0. validate input for consistent line length
+1. probs start off with a 2d grid of length/width of whatever is input
+	- scaling w/ a 2d multiplication or?
+	- how to get the input/output and translate that to a char * (or char **?? char ***??)
+	- damn char ** then project that into a char *?
+	- or linked list (ok no terrible idea bc too much memory i think) and then project to char *
+	1.1 create a function to translate the 2d to a char * line
+2. then try to project that out isometrically, just 2d
+	- figure out the locations of the x and the y coordinates
+	- find an equation to represent the diagonal line stretching between each x/y
+		- really just y = mx + c, where you first have to find the m and c given the x+y coordinates. then if a given coordinate matches that equation you draw that pixel into the image represetnation.
+3. figure out the equations for parallel and iso projections too really

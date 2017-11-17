@@ -1,0 +1,10 @@
+1. count the number of columns, multiply that by the tile width
+	- need to account for the offsets to the sides too though
+	- though prob would be more applicable once we transform it
+2. count the number of lines too
+3. transformation process must happen before we draw into the image really
+	- you can transform it into 2d w/ regular equations
+	- matrix multiply to get the z matrix
+	- then add the x/y w/ the x matrix
+	- will have lots of overlap tho
+	- how do i get rid of those

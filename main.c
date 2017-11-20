@@ -21,16 +21,13 @@ int	destroy_screen(int keycode, t_session *env)
 	return (0);
 }
 
-// compile w/ gcc main.c minilibx_macos/libmlx.a -I libft -framework OpenGL -framework AppKit libft/libft.a
 int	main(void)
 {
-	void		*mlx;
-	void		*win;
 	t_session	*env;
 
 	env = ft_memalloc(sizeof(t_session));
 	env->mlx = mlx_init();
-	env->win = mlx_new_window(env->mlx, 400, 400, "mlx 42");
+	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
 	mlx_pixel_put(env->mlx, env->win, 200, 200, 0x00FFFFFF);
 	mlx_key_hook(env->win, destroy_screen, env);
 	mlx_loop(env->mlx);

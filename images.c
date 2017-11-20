@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   images.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Created: 2017/11/18 17:58:48 by sadamant          #+#    #+#             */
+/*   Updated: 2017/11/18 17:58:49 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <math.h>
-#include "mlx.h"
-#include "libft.h"
+#include "fdf.h"
 
-# define W_HEIGHT 400
-# define W_WIDTH 400
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
-# define ESC_KEY 53
+/*
+** create a new image.
+** mlx_new_image takes in the mlx pointer, the width and the height of the image.
+*/
 
-typedef struct	s_session
+void   new_image(t_session *env)
 {
-	void		*mlx;
-	void		*win;
-}				t_session;
+	void	*img;
+	char	*img_string;
+
+	img = mlx_new_image(e->mlx, W_WIDTH, W_HEIGHT);
+	img_string = mlx_get_data_addr(img, int *bits_per_pixel, int *size_line, 1);
+	img_string = 
+}

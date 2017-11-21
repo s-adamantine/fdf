@@ -29,14 +29,13 @@ FLAGS = -c -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAGS) $(SRC)
-	ar -rc $(NAME) *.o
+	@gcc $(FLAGS) $(SRC)
+	@ar -rc $(NAME) *.o
 
 clean:
-	rm -rf *.o
+	@rm -rf *.o
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
-	rm -rf *.o

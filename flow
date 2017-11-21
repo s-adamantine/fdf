@@ -15,3 +15,7 @@
 	- find an equation to represent the diagonal line stretching between each x/y
 		- really just y = mx + c, where you first have to find the m and c given the x+y coordinates. then if a given coordinate matches that equation you draw that pixel into the image represetnation.
 3. figure out the equations for parallel and iso projections too really
+
+
+1. Probably input everything into an int array
+2. Let's just validate everything first.  

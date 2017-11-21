@@ -11,10 +11,10 @@
 # **************************************************************************** #
 
 NAME = fdf
-LIBNAME1 = libft.a
-LIBNAME2 = libmlx.a
+LIBNAME1 = libft.a #why do I have this here
+LIBNAME2 = libmlx.a #or this
 
-SRC = main.c
+SRC = main.c get_next_line.c error.c images.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
@@ -28,14 +28,17 @@ LIBDIR2 = minilibx_macos/
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(FLAGS) $(SRC) $(LIBDIR1)/$(LIBNAME1) $(LIBDIR2)/$(LIBNAME2) -I libft -I minilibx_macos/
+	@$(MAKE) -C $(LIBDIR1)
+	@$(MAKE) -C $(LIBDIR2)
+	#match libft's makefile w/ the one for fillit
+	$(CC) $(FLAGS) $(SRC) $(LIB1) $(LIB2) -I libft -I minilibx_macos/
 
 clean:
-	@$(MAKE) clean -C $(LIBDIR)
+	@$(MAKE) clean -C $(LIBDIR1)
+	@$(MAKE) clean -C $(LIBDIR2)
 	@rm -rf $(OBJ)
 
 fclean: clean
 	@rm -rf $(NAME) $(LIBDIR1)/$(LIBNAME1)
 
-re: fclean
-	@make
+re: fclean all

@@ -13,22 +13,33 @@
 #include "fdf.h"
 
 /*
-** create a new image.
-** mlx_new_image takes in the mlx pointer, the width and the height of the image.
+** poops out the 2d representation of how many points are input
 */
 
-void   new_image(t_session *env)
-{
-	int		imgtowindow;
-	void	*img;
-	char	*pixel_addr;
-
-	img = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
-	pixel_addr = mlx_get_data_addr(img, &(env->bpp), &(env->sline), &(env->endian));
-	pixel_addr[0] = mlx_get_color_value(env->mlx, 0x0000FFFF);
-	pixel_addr[1] = mlx_get_color_value(env->mlx, 0x0000FFFF);
-	imgtowindow = mlx_put_image_to_window(env->mlx, env->win, img, 200, 200); //what the fuck does this return
-}
+/*
+** why aren't they the same color :(
+*/
+// void	new_image(t_session *env)
+// {
+// 	int		i; //the current pixel incremented by bpps.
+// 	int		x;
+// 	void	*img;
+// 	char	*pixel_addr;
+//
+// 	img = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
+// 	pixel_addr = mlx_get_data_addr(img, &(env->bpp), &(env->sline), &(env->endian));
+// 	// needs to be incremented by bits per pixels.
+// 	x = 200;
+// 	while (x < 210)
+// 		mlx_pixel_put(env->mlx, env->win, x++, 200, 0x00FFFF);
+// 	i = 0;
+// 	while (i < 11)
+// 		pixel_addr[i++ * (env->bpp / 8)] = mlx_get_color_value(env->mlx, 0x0000FF);
+// 	printf("%d\n", 0x00FFFF);
+// 	printf("%d\n", mlx_get_color_value(env->mlx, 0x00FFFF));
+// 	printf("hi");
+// 	mlx_put_image_to_window(env->mlx, env->win, img, 200, 205);
+// }
 
 int		destroy_screen(int keycode, t_session *env)
 {
@@ -49,6 +60,6 @@ void	setup_environment(void)
 	env->sline = W_WIDTH * BPP; //not sure about this though.
 	env->endian = ENDIAN;
 	mlx_key_hook(env->win, destroy_screen, env);
-	new_image(env);
+	// new_image(env);
 	mlx_loop(env->mlx);
 }

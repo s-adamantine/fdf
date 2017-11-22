@@ -28,10 +28,6 @@ static void		exit_error(char *str)
 ** number of points in each line.
 */
 
-/*
-** current error: not getting the file descriptor??
-*/
-
 int	ft_arrlen(char **arr)
 {
 	int	i;
@@ -46,53 +42,84 @@ int	ft_arrlen(char **arr)
 	return (len);
 }
 
-int	**atoi_arr(char **arr)
+/*
+** poops out the 2d representation of how many points are input
+*/
+void	poop_points(t_session *env, t_point **points)
 {
 	int i;
-	int	**result;
+	int	x;
+	int y;
+	int	poop;
 
 	i = 0;
-	result = ft_memalloc(ft_arrlen(arr));
-	printf("%d\n", ft_atoi(arr[i]));
-	// while (arr[i])
-	// {
-	// 	*result++ = ft_atoi(arr[i]);
-	// 	i++;
-	// }
-	return (result);
+	x = 0;
+	while (points[i++])
+	{
+		mlx_pixel_put(emv->mlx, env->win, x, y, 0x00FFFFFF);
+		x += TILE_WIDTH;
+	}
 }
 
 /*
-** checks if each line has the right number of points.
-** then grabs those points and puts them into a structure of points.
-** needs to convert the array of characters to an array of integers.
+** grabs each point into a structure of points, checking if each line
+** has the same number of points.
+**
+** the checking part still needs to be implemented.
+** need to go and grab the first line!!
+** also need to make sure if all the points are allocated to points (if statement after tokens)
 */
 
-void 	grab_points(int fd)
+t_point		**grab_points(int fd)
 {
-	int		n; //the number of points in each line.
-	char	**points;
+	int		i;
+	int		j;
+	char	**tokens;
 	char	**line;
+	t_point	*point;
+	t_point	**points;
 
-	line = ft_memalloc(sizeof(char **));
+	if (!(line = ft_memalloc(sizeof(char **))))
+		return (NULL);
 	get_next_line(fd, line);
-	points = ft_strsplit(*line, ' ');
-	n = ft_arrlen(points);
-	// while (get_next_line(fd, line) > 0)
-	// {
-	// 	chpoints = ft_strsplit(*line, ' ');
-	// 	if (n != ft_arrlen(points))
-	// 		exit_error("error: lines contain different numbers of entries");
-	// }
+	tokens = ft_strsplit(*line, ' ');
+	// needs to be as many points as there are tokens * lines
+	// but this doesn't work if you can't
+	if (!(points = ft_memalloc(sizeof(t_point *) * ft_arrlen(tokens))))
+		return (NULL);
+	j = 0; //can be 0 or 1 really.
+	while (get_next_line(fd, line) > 0)
+	{
+		i = -1;
+		tokens = ft_strsplit(*line, ' ');
+		point = ft_memalloc(sizeof(t_point));
+		while (tokens[++i])
+		{
+			point->x = i;
+			point->y = j;
+			point->z = ft_atoi(tokens[i]);
+			// printf("x: %d, y: %d, z: %d\n", point->x, point->y, point->z);
+			points[i] = point;
+		}
+		j++;
+	}
+	return (points);
 }
 
+/*
+** you really only want to read once though, right, instead of parsing through it
+** a million fucking times.
+*/
 void	handle_input(int argc, char **argv)
 {
-	int		fd;
+	int			fd;
+	t_point	**points;
 
 	fd = open(argv[1], O_RDONLY);
 	if (argc != 2)
 		exit_error("usage: ./fdf source_file");
-	grab_points(fd);
+	points = grab_points(fd);
+	//this really shouldn't be here but
+	poop_points(env, points);
 	close(fd);
 }

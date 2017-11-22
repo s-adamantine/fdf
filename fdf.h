@@ -26,7 +26,8 @@
 # define TILE_HEIGHT 20
 # define ESC_KEY 53
 # define BPP 24
-# define ENDIAN 1
+# define BPB 8
+# define ENDIAN 0
 
 typedef struct	s_session
 {

@@ -48,18 +48,3 @@ int		destroy_screen(int keycode, t_session *env)
 		mlx_destroy_window(env->mlx, env->win);
 	return (1);
 }
-
-void	setup_environment(void)
-{
-	t_session	*env;
-
-	env = ft_memalloc(sizeof(t_session));
-	env->mlx = mlx_init();
-	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
-	env->bpp = BPP;
-	env->sline = W_WIDTH * BPP; //not sure about this though.
-	env->endian = ENDIAN;
-	mlx_key_hook(env->win, destroy_screen, env);
-	// new_image(env);
-	mlx_loop(env->mlx);
-}

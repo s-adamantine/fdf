@@ -15,3 +15,23 @@
 /*
 ** use bresenham's line algorithm to connect two different points together.
 */
+
+
+/*
+** poops out the 2d representation of how many points are input
+*/
+void	poop_points(t_session *env, t_point **points)
+{
+	int i;
+	int	x;
+	int y;
+	int	poop;
+
+	i = 0;
+	x = 0;
+	while (points[i++])
+	{
+		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
+		x += TILE_WIDTH;
+	}
+}

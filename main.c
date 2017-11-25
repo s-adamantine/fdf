@@ -13,9 +13,29 @@
 #include "fdf.h"
 #include "mlx.h"
 
+t_session	*setup_environment(void)
+{
+	t_session	*env;
+
+	env = ft_memalloc(sizeof(t_session));
+	env->mlx = mlx_init();
+	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
+	env->bpp = BPP;
+	env->sline = W_WIDTH * BPP; //not sure about this though.
+	env->endian = ENDIAN;
+	mlx_key_hook(env->win, destroy_screen, env);
+	// new_image(env);
+	return (env);
+}
+
 int	main(int argc, char **argv)
 {
-	handle_input(argc, argv);
-	setup_environment();
+	t_session	*env;
+	t_point		***points;
+
+	env = setup_environment();
+	points = grab_input(argc, argv);
+	// poop_points(env, points); //the drawing portion
+	mlx_loop(env->mlx); //needs to be here!
 	return (0);
 }

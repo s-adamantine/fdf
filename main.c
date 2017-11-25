@@ -34,7 +34,7 @@ int	main(int argc, char **argv)
 	t_point		***points;
 
 	env = setup_environment();
-	points = grab_input(argc, argv);
+	points = handle_input(argc, argv); //might not be the best choice of function name - to change
 	// poop_points(env, points); //the drawing portion
 	mlx_loop(env->mlx); //needs to be here!
 	return (0);

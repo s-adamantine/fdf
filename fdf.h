@@ -38,6 +38,12 @@ typedef struct	s_session
 	int			endian;
 }				t_session;
 
+typedef struct 	s_input
+{
+	int			rows;
+	int			cols;
+}				t_input;
+
 typedef struct	s_point
 {
 	int			x;
@@ -45,7 +51,7 @@ typedef struct	s_point
 	int			z;
 }				t_point;
 
-t_point			***grab_input(int argc, char **argv);
+t_point			***handle_input(int argc, char **argv);
 void			poop_points(t_session *env, t_point ***points);
 int				ft_arrlen(char **arr);
 int				destroy_screen(int keycode, t_session *env);

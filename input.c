@@ -58,6 +58,7 @@ static t_input	*grab_input_parameters(int fd, char **line)
 		exit_error("error: input file is either empty or does not exist.");
 	split = ft_strsplit(*line, ' ');
 	input->cols = ft_arrlen(split);
+	printf("input->cols: %d\n", input->cols);
 	while (get_next_line(fd, line) > 0)
 	{
 		rows++;
@@ -68,6 +69,7 @@ static t_input	*grab_input_parameters(int fd, char **line)
 			exit_error("error: differing numbers of points per line in input file.");
 	}
 	input->rows = rows;
+	printf("input->rows: %d\n", input->rows);
 	return (input);
 }
 
@@ -81,17 +83,17 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 	char	**zvalues;
 	t_point	***points;
 
-	if (!(points = (t_point ***)malloc(sizeof(t_point **)*input->rows)))
+	if (!(points = ft_memalloc(sizeof(t_point **) * (input->rows + 1))))
 		return (NULL);
 	j = 0;
 	while (get_next_line(fd, line) > 0)
 	{
 		i = 0;
 		zvalues = ft_strsplit(*line, ' ');
-		points[j] = (t_point **)malloc(sizeof(t_point *)*input->cols);
+		points[j] = ft_memalloc(sizeof(t_point *)* (input->cols + 1));
 		while (zvalues[i])
 		{
-			points[j][i] = (t_point *)malloc(sizeof(t_point));
+			points[j][i] = ft_memalloc(sizeof(t_point));
 			points[j][i]->x = i;
 			points[j][i]->y = j;
 			points[j][i]->z = ft_atoi(zvalues[i]);
@@ -99,6 +101,9 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 		}
 		j++;
 	}
+	j = j - 1;
+	i = input->cols - 1;
+	printf("points[%d][%d]: %d\n", j, i, points[j][i]->x);
 	return (points);
 }
 
@@ -122,5 +127,6 @@ t_point				***handle_input(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	points = grab_points(fd, line, input);
 	close(fd);
+	//this shouldn't be here.
 	return (points);
 }

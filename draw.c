@@ -90,7 +90,7 @@ void				connect_points(t_session *env, t_point **points)
 	y = points[0]->y;
 	deltax = points[1]->x - points[0]->x;
 	deltay = points[1]->y - points[0]->y;
-	if (deltax == 0) //should really be deltay though, but calibrate quadrants fucked me up.
+	if (deltax == 0)
 	{
 		draw_vertical(env, points);
 		return;
@@ -119,25 +119,24 @@ void				connect_points(t_session *env, t_point **points)
 */
 void			poop_points(t_session *env, t_point ***points)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	int 	x;
 	int 	y;
-	t_point	**pair;
 
 	j = 0;
 	y = TOPY;
-	pair = ft_memalloc(sizeof(t_point)); //if statement here?
-	while (points[j++])
+	while (points[j])
 	{
 		i = 0;
 		x = TOPX;
-		while (points[i++])
+		while (points[j][i])
 		{
 			mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
+			i++;
 			x += TILE_WIDTH;
 		}
+		j++;
 		y += TILE_HEIGHT;
 	}
-	//meed to grab poop pairs and connect them together.
 }

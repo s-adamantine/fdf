@@ -20,8 +20,8 @@
 #include "libft.h"
 #include "get_next_line.h"
 
-# define W_HEIGHT 400
-# define W_WIDTH 400
+# define W_HEIGHT 600
+# define W_WIDTH 600
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
 # define ESC_KEY 53

@@ -28,6 +28,8 @@
 # define BPP 24
 # define BPB 8
 # define ENDIAN 0
+# define TOPX 100
+# define TOPY 100
 
 typedef struct	s_session
 {

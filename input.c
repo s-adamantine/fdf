@@ -72,7 +72,7 @@ static t_input	*grab_input_parameters(int fd, char **line)
 }
 
 /*
-** check for invalid characters here.
+** need to check for invalid characters here.
 */
 static t_point		***grab_points(int fd, char **line, t_input *input)
 {

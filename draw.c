@@ -20,132 +20,124 @@
 ** bersenham_y assumes y as the driving axis.
 */
 
-// static void	bersenham_x(t_point *point0, t_point *point1)
-// {
-// 	int min_x;
-// 	int	max_x;
-// 	int error;
-//
-// 	if (point1->x <= point0->x)
-// 	{
-// 		min_x = point1->x;
-// 		max_x = point0->x;
-// 	}
-// 	else
-// 	{
-// 		min_x = point0->x;
-// 		max_x = point1->x;
-// 	}
-// 	while (min_x <= max_x)
-// 	{
-// 		deltay = abs(point1->y - point0->y);
-// 		deltax = abs(point1->x - point0->x);
-// 		error = deltay - deltax; //deltay is always greater than deltax w/ driving axis x;
-// 		if (error >= 0)
-// 		{
-// 			y = y + 1;
-// 			error = error - deltax;
-// 		}
-// 		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
-// 		min_x++;
-// 	}
-// }
-//
+static t_point		**calibrate_quadrants(t_point	**points)
+{
+	int		deltax;
+	int		deltay;
+	t_point	*temp;
 
-// void		connect_points(t_session *env, t_point *point0, t_point *point1)
-// {
-// 	int 	y;
-// 	int 	x;
-// 	int 	deltax;
-// 	int 	deltay;
-// 	int 	error;
-// 	double	deltaerr; //test this though.
-//
-// 	deltax = point1->x - point0->x;
-// 	deltay = point1->y - point0->y; //why is this in the right case though
-// 	printf("deltax: %d\n", deltax);
-// 	printf("deltay: %d\n", deltay);
-// 	deltaerr = abs(deltax / deltay);
-// 	printf("deltaerr: %f\n", deltaerr);
-// 	error = 0;
-// 	y = point1->y;
-// 	x = point1->x;
-// 	while (x <= point0->x)
-// 	{
-// 		printf("x is %d and y is %d\n", x, y);
-// 		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FF0000);
-// 		error = error + deltaerr;
-// 		printf("error is %d\n", error);
-// 		while (error >= 0.5)
-// 		{
-// 			printf("y before is: %d\n", y);
-// 			y++;
-// 			error = error - 1;
-// 		}
-// 		x++;
-// 	}
-// }
+	deltax = points[1]->x - points[0]->x;
+	deltay = points[1]->y - points[0]->y;
+	printf("deltay: %d, deltax: %d\n", deltay, deltax);
+	if (deltax == 0 || deltay == 0)
+		return (points);
+	if (abs(deltax) > abs(deltay))
+	{
+		temp = ft_memalloc(sizeof(t_point *));
+		temp->x = points[0]->x;
+		points[0]->x = points[0]->y;
+		points[0]->y = temp->x;
+		temp->x = points[1]->x;
+		points[1]->x = points[1]->y;
+		points[1]->y = temp->x;
+	}
+	if (points[0]->x > points[1]->x)
+	{
+		temp = points[0];
+		points[0] = points[1];
+		points[1] = temp;
+	}
+	return (points);
+}
+
+// i think this overlaps the last pixel, if that matters?
+static void			draw_vertical(t_session *env, t_point **points)
+{
+	while (points[0]->y != points[1]->y)
+	{
+		if (points[0]->y < points[1]->y)
+			mlx_pixel_put(env->mlx, env->win, points[0]->x, (points[0]->y)++, 0x00FF0000);
+		else if (points[0]->y > points[1]->y)
+			mlx_pixel_put(env->mlx, env->win, points[0]->x, (points[0]->y)--, 0x00FF0000);
+	}
+}
+
+static void			draw_horizontal(t_session *env, t_point **points)
+{
+	while (points[0]->x != points[1]->x)
+	{
+		if (points[0]->x < points[1]->x)
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)++, points[0]->y, 0x00FF0000);
+		else if (points[0]->x > points[1]->x)
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)--, points[0]->y, 0x00FF0000);
+	}
+}
 
 /*
-** bersenham using doubles (for the m)
+** figure out how to change the driving axes
+** going to connect it w/ point pairs
 */
+void				connect_points(t_session *env, t_point **points)
+{
+	int 	x;
+	int 	y;
+	int 	deltax;
+	int 	deltay;
+	int		error;
 
-// void		connect_points(t_session *env, t_point *point0, t_point *point1)
-// {
-// 	int 	y;
-// 	int 	x;
-// 	int 	deltax;
-// 	int 	deltay;
-// 	double	m;
-// 	// int 	error;
-// 	// double	deltaerr; //test this though.
-//
-// 	deltax = point1->x - point0->x;
-// 	deltay = point1->y - point0->y; //why is this in the right case though
-// 	m = deltay/deltax;
-// 	printf("deltax: %d\n", deltax);
-// 	printf("deltay: %d\n", deltay);
-// 	// deltaerr = abs(deltax / deltay);
-// 	// printf("deltaerr: %f\n", deltaerr);
-// 	// error = 0;
-// 	y = point1->y;
-// 	x = point1->x;
-// 	while (x <= point0->x)
-// 	{
-// 		printf("x is %d and y is %d\n", x, y);
-// 		y = (m * (x - point0->x)) + point0->y;
-// 		printf("m is %f\n", m);
-// 		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FF0000);
-// 		// error = error + deltaerr;
-// 		x++;
-// 	}z																				x
-// }
-
-
-
-
+	points = calibrate_quadrants(points);
+	x = points[0]->x;
+	y = points[0]->y;
+	deltax = points[1]->x - points[0]->x;
+	deltay = points[1]->y - points[0]->y;
+	if (deltax == 0) //should really be deltay though, but calibrate quadrants fucked me up.
+	{
+		draw_vertical(env, points);
+		return;
+	}
+	else if (deltay == 0)
+	{
+		draw_horizontal(env, points);
+		return;
+	}
+	error = abs(deltay - deltax);
+	while (x <= points[1]->x)
+	{
+		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FF0000);
+		while (error >= 0) //don't make error abs here.
+		{
+			deltay / deltax >= 0? y++: y--;
+			error = error - abs(deltax);
+		}
+		x++;
+		error = error + abs(deltay);
+	}
+}
 
 /*
 ** poops out the 2d representation of how many points are input
 */
-// void	poop_points(t_session *env, t_point ***points)
-// {
-// 	int i;
-// 	int j;
-// 	int x;
-// 	int y;
-//
-// 	j = 0;
-// 	y = TOPY;
-// 	while (points[j++])
-// 	{
-// 		i = 0;
-// 		x = TOPX;
-// 		while (points[i++])
-// 		{
-// 			mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
-// 			x += TILE_WIDTH;
-// 		}
-// 		y += TILE_HEIGHT;
-// 	}
-// }
+void			poop_points(t_session *env, t_point ***points)
+{
+	int 	i;
+	int 	j;
+	int 	x;
+	int 	y;
+	t_point	**pair;
+
+	j = 0;
+	y = TOPY;
+	pair = ft_memalloc(sizeof(t_point)); //if statement here?
+	while (points[j++])
+	{
+		i = 0;
+		x = TOPX;
+		while (points[i++])
+		{
+			mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
+			x += TILE_WIDTH;
+		}
+		y += TILE_HEIGHT;
+	}
+	//meed to grab poop pairs and connect them together.
+}

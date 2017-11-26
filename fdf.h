@@ -57,3 +57,4 @@ t_point			***handle_input(int argc, char **argv);
 void			poop_points(t_session *env, t_point ***points);
 int				ft_arrlen(char **arr);
 int				destroy_screen(int keycode, t_session *env);
+void			connect_points(t_session *env, t_point **points);

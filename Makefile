@@ -31,7 +31,7 @@ $(NAME):
 	@$(MAKE) -C $(LIBDIR1)
 	@$(MAKE) -C $(LIBDIR2)
 	#match libft's makefile w/ the one for fillit
-	$(CC) $(FLAGS) $(SRC) $(LIB1) $(LIB2) -I libft -I minilibx_macos/
+	$(CC) $(FLAGS) $(SRC) $(LIB1) $(LIB2) -I libft -I minilibx_macos/ -o $(NAME)
 
 clean:
 	@$(MAKE) clean -C $(LIBDIR1)

@@ -28,50 +28,91 @@ t_session	*setup_environment(void)
 	return (env);
 }
 
+t_point		**change_quadrants(t_point	**points)
+{
+	int		deltax;
+	int		deltay;
+	t_point	*temp;
+
+	deltax = points[1]->x - points[0]->x;
+	deltay = points[1]->y - points[0]->y; //why is this in the right case though
+	//make it so that x0 is always smaller than x1.
+	//the deltay and the deltax needs to be checked!!!
+	printf("deltay: %d, deltax: %d\n", deltay, deltax);
+	if (abs(deltax) > abs(deltay))
+	{
+		temp = ft_memalloc(sizeof(t_point *));
+		temp->x = points[0]->x;
+		points[0]->x = points[0]->y;
+		points[0]->y = temp->x;
+		temp->x = points[1]->x;
+		points[1]->x = points[1]->y;
+		points[1]->y = temp->x;
+	}
+	if (points[0]->x > points[1]->x)
+	{
+		temp = points[0];
+		points[0] = points[1];
+		points[1] = temp;
+	}
+	return (points);
+}
+
 /*
 ** figure out how to change the driving axes
+** going to connect it w/ point pairs
 */
-void		connect_points(t_session *env, t_point *point0, t_point *point1)
+void		connect_points(t_session *env, t_point **points)
 {
 	int 	x;
 	int 	y;
 	int 	deltax;
 	int 	deltay;
 	int		error;
+	int		m;
 
-	x = point0->x;
-	y = point0->y;
-	deltax = point1->x - point0->x;
-	deltay = point1->y - point0->y; //why is this in the right case though
-	error = deltay - deltax;
-	while (x <= point1->x)
+	points = change_quadrants(points);
+	x = points[0]->x;
+	y = points[0]->y;
+	deltax = points[1]->x - points[0]->x;
+	deltay = points[1]->y - points[0]->y; //why is this in the right case though
+	m = deltay / deltax;
+	error = abs(deltay - deltax); //seriously have no idea what the OOP for the errors are supposed to be.
+	// error = deltay - deltax;
+	while (x <= points[1]->x)
 	{
 		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FF0000);
-		if (error >= 0)
+		while (error >= 0) //don't make error abs here.
 		{
-			y = y + 1;
-			error = error - deltax;
+			m >= 0? y++: y--;
+			error = error - abs(deltax);
 		}
 		x++;
-		error = error + deltay;
+		error = error + abs(deltay);
 	}
 }
 
-//doesn't work when error is 1?
-
+/*
+** delta y is bigger than delta x
+*/
 void	bersenham_points(t_session *env)
 {
+	t_point		**points;
 	t_point		*point0;
 	t_point		*point1;
 
+	points = ft_memalloc(sizeof(t_point *)* 2);
 	point0 = ft_memalloc(sizeof(t_point));
 	point1 = ft_memalloc(sizeof(t_point));
-	point0->x = 140;
+	point0->x = 200;
 	point0->y = 200;
-	point1->x = 280;
-	point1->y = 275;
-	mlx_pixel_put(env->mlx, env->win, point0->x, point0->y, 0x00FFFFFF);
-	connect_points(env, point0, point1);
+	point1->x = 300; //150
+	point1->y = 200; //75
+	points[0] = point0;
+	points[1] = point1;
+	connect_points(env, points); //are points even the right thing to put here???
+	mlx_pixel_put(env->mlx, env->win, points[0]->x, points[0]->y, 0x00FFFFFF);
+	mlx_pixel_put(env->mlx, env->win, points[1]->x, points[1]->y, 0x0000FF00);
 }
 
 int	main(int argc, char **argv)

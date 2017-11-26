@@ -28,17 +28,17 @@ t_session	*setup_environment(void)
 	return (env);
 }
 
-t_point		**change_quadrants(t_point	**points)
+t_point		**calibrate_quadrants(t_point	**points)
 {
 	int		deltax;
 	int		deltay;
 	t_point	*temp;
 
 	deltax = points[1]->x - points[0]->x;
-	deltay = points[1]->y - points[0]->y; //why is this in the right case though
-	//make it so that x0 is always smaller than x1.
-	//the deltay and the deltax needs to be checked!!!
+	deltay = points[1]->y - points[0]->y;
 	printf("deltay: %d, deltax: %d\n", deltay, deltax);
+	if (deltax == 0 || deltay == 0)
+		return (points);
 	if (abs(deltax) > abs(deltay))
 	{
 		temp = ft_memalloc(sizeof(t_point *));
@@ -58,6 +58,29 @@ t_point		**change_quadrants(t_point	**points)
 	return (points);
 }
 
+// i think this overlaps the last pixel, if that matters?
+void	draw_vertical(t_session *env, t_point **points)
+{
+	while (points[0]->y != points[1]->y)
+	{
+		if (points[0]->y < points[1]->y)
+			mlx_pixel_put(env->mlx, env->win, points[0]->x, (points[0]->y)++, 0x00FF0000);
+		else if (points[0]->y > points[1]->y)
+			mlx_pixel_put(env->mlx, env->win, points[0]->x, (points[0]->y)--, 0x00FF0000);
+	}
+}
+
+void	draw_horizontal(t_session *env, t_point **points)
+{
+	while (points[0]->x != points[1]->x)
+	{
+		if (points[0]->x < points[1]->x)
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)++, points[0]->y, 0x00FF0000);
+		else if (points[0]->x > points[1]->x)
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)--, points[0]->y, 0x00FF0000);
+	}
+}
+
 /*
 ** figure out how to change the driving axes
 ** going to connect it w/ point pairs
@@ -69,22 +92,30 @@ void		connect_points(t_session *env, t_point **points)
 	int 	deltax;
 	int 	deltay;
 	int		error;
-	int		m;
 
-	points = change_quadrants(points);
+	points = calibrate_quadrants(points);
 	x = points[0]->x;
 	y = points[0]->y;
 	deltax = points[1]->x - points[0]->x;
-	deltay = points[1]->y - points[0]->y; //why is this in the right case though
-	m = deltay / deltax;
-	error = abs(deltay - deltax); //seriously have no idea what the OOP for the errors are supposed to be.
-	// error = deltay - deltax;
+	deltay = points[1]->y - points[0]->y;
+	printf("deltay is %d\n", deltay);
+	if (deltax == 0) //should really be deltay though, but calibrate quadrants fucked me up.
+	{
+		draw_vertical(env, points);
+		return;
+	}
+	else if (deltay == 0)
+	{
+		draw_horizontal(env, points);
+		return;
+	}
+	error = abs(deltay - deltax);
 	while (x <= points[1]->x)
 	{
 		mlx_pixel_put(env->mlx, env->win, x, y, 0x00FF0000);
 		while (error >= 0) //don't make error abs here.
 		{
-			m >= 0? y++: y--;
+			deltay / deltax >= 0? y++: y--;
 			error = error - abs(deltax);
 		}
 		x++;
@@ -110,7 +141,7 @@ void	bersenham_points(t_session *env)
 	point1->y = 200; //75
 	points[0] = point0;
 	points[1] = point1;
-	connect_points(env, points); //are points even the right thing to put here???
+	connect_points(env, points);
 	mlx_pixel_put(env->mlx, env->win, points[0]->x, points[0]->y, 0x00FFFFFF);
 	mlx_pixel_put(env->mlx, env->win, points[1]->x, points[1]->y, 0x0000FF00);
 }

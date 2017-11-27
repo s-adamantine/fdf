@@ -94,8 +94,8 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 		while (zvalues[i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
-			points[j][i]->x = i;
-			points[j][i]->y = j;
+			points[j][i]->x = i * TILE_WIDTH;
+			points[j][i]->y = j * TILE_HEIGHT;
 			points[j][i]->z = ft_atoi(zvalues[i]);
 			i++;
 		}
@@ -110,7 +110,7 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 /*
 ** figure out how to read only once
 */
-t_point				***handle_input(int argc, char **argv)
+t_point				***handle_input(int argc, char **argv, t_session *env)
 {
 	int			fd;
 	char		**line;
@@ -127,6 +127,6 @@ t_point				***handle_input(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	points = grab_points(fd, line, input);
 	close(fd);
-	//this shouldn't be here.
+	point_pairs(env, input, points);
 	return (points);
 }

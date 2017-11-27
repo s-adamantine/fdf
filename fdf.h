@@ -53,8 +53,9 @@ typedef struct	s_point
 	int			z;
 }				t_point;
 
-t_point			***handle_input(int argc, char **argv);
+t_point			***handle_input(int argc, char **argv, t_session *env);
 void			poop_points(t_session *env, t_point ***points);
 int				ft_arrlen(char **arr);
 int				destroy_screen(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);
+void			point_pairs(t_session *env, t_input *input, t_point ***points);

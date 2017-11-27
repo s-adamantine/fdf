@@ -28,7 +28,6 @@ static t_point		**calibrate_quadrants(t_point	**points)
 
 	deltax = points[1]->x - points[0]->x;
 	deltay = points[1]->y - points[0]->y;
-	printf("deltay: %d, deltax: %d\n", deltay, deltax);
 	if (deltax == 0 || deltay == 0)
 		return (points);
 	if (abs(deltax) > abs(deltay))
@@ -67,9 +66,9 @@ static void			draw_horizontal(t_session *env, t_point **points)
 	while (points[0]->x != points[1]->x)
 	{
 		if (points[0]->x < points[1]->x)
-			mlx_pixel_put(env->mlx, env->win, (points[0]->x)++, points[0]->y, 0x00FF0000);
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)++, points[0]->y, 0x000000FF);
 		else if (points[0]->x > points[1]->x)
-			mlx_pixel_put(env->mlx, env->win, (points[0]->x)--, points[0]->y, 0x00FF0000);
+			mlx_pixel_put(env->mlx, env->win, (points[0]->x)--, points[0]->y, 0x000000FF);
 	}
 }
 
@@ -115,28 +114,61 @@ void				connect_points(t_session *env, t_point **points)
 }
 
 /*
+** god rename me please.
+*/
+void			point_pairs(t_session *env, t_input *input, t_point ***points)
+{
+	int		i;
+	int 	j;
+	t_point	**pair;
+
+	j = 0;
+	pair = ft_memalloc(sizeof(t_point *) * 2);
+	while (j < input->rows - 1)
+	{
+		i = 0;
+		while (i < input->cols)
+		{
+			pair[0] = points[j][i];
+			pair[1] = points[j + 1][i];
+			connect_points(env, pair);
+			i++;
+		}
+		j++;
+	}
+	j = 0;
+	while (j < input->rows)
+	{
+		i = 0;
+		while (i < input->cols - 1)
+		{
+			pair[0] = points[j][i];
+			pair[1] = points[j][i + 1];
+			connect_points(env, pair);
+			i++;
+		}
+		j++;
+	}
+}
+/*
 ** poops out the 2d representation of how many points are input
 */
 void			poop_points(t_session *env, t_point ***points)
 {
 	int		i;
 	int		j;
-	int 	x;
-	int 	y;
 
 	j = 0;
-	y = TOPY;
 	while (points[j])
 	{
 		i = 0;
-		x = TOPX;
 		while (points[j][i])
 		{
-			mlx_pixel_put(env->mlx, env->win, x, y, 0x00FFFFFF);
+			mlx_pixel_put(env->mlx, env->win, points[j][i]->x, points[j][i]->y, 0x00FFFFFF);
+			if (points[j][i]->z > 0)
+				mlx_pixel_put(env->mlx, env->win, points[j][i]->x, points[j][i]->y, 0x0000FF00);
 			i++;
-			x += TILE_WIDTH;
 		}
 		j++;
-		y += TILE_HEIGHT;
 	}
 }

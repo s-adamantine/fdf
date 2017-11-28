@@ -20,26 +20,10 @@
 ** bersenham_y assumes y as the driving axis.
 */
 
-static t_point		**calibrate_quadrants(t_point	**points)
+static t_point		**calibrate_direction(t_point	**points)
 {
-	int		deltax;
-	int		deltay;
 	t_point	*temp;
 
-	deltax = points[1]->x - points[0]->x;
-	deltay = points[1]->y - points[0]->y;
-	if (deltax == 0 || deltay == 0)
-		return (points);
-	if (abs(deltax) > abs(deltay))
-	{
-		temp = ft_memalloc(sizeof(t_point *));
-		temp->x = points[0]->x;
-		points[0]->x = points[0]->y;
-		points[0]->y = temp->x;
-		temp->x = points[1]->x;
-		points[1]->x = points[1]->y;
-		points[1]->y = temp->x;
-	}
 	if (points[0]->x > points[1]->x)
 	{
 		temp = points[0];
@@ -84,21 +68,15 @@ void				connect_points(t_session *env, t_point **points)
 	int 	deltay;
 	int		error;
 
-	points = calibrate_quadrants(points);
+	points = calibrate_direction(points);
 	x = points[0]->x;
 	y = points[0]->y;
 	deltax = points[1]->x - points[0]->x;
 	deltay = points[1]->y - points[0]->y;
 	if (deltax == 0)
-	{
-		draw_vertical(env, points);
-		return;
-	}
+		return (draw_vertical(env, points));
 	else if (deltay == 0)
-	{
-		draw_horizontal(env, points);
-		return;
-	}
+		return (draw_horizontal(env, points));
 	error = abs(deltay - deltax);
 	while (x <= points[1]->x)
 	{

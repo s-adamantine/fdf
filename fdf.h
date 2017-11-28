@@ -38,15 +38,6 @@
 # define BETA 0
 # define GAMMA 0
 
-typedef struct	s_session
-{
-	void		*mlx;
-	void		*win;
-	int			bpp;
-	int			sline;
-	int			endian;
-}				t_session;
-
 typedef struct 	s_input
 {
 	int			rows;
@@ -59,6 +50,16 @@ typedef struct	s_point
 	int			y;
 	int			z;
 }				t_point;
+
+typedef struct	s_session
+{
+	void		*mlx;
+	void		*win;
+	int			bpp;
+	int			sline;
+	int			endian;
+	t_point		***points;
+}				t_session;
 
 t_input			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_session *env, t_input *input);

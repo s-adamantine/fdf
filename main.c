@@ -32,13 +32,13 @@ int	main(int argc, char **argv)
 {
 	t_session	*env;
 	t_input		*input;
-	t_point		***points;
 
 	env = setup_environment();
 	// bersenham_points_test(env);
 	input = grab_input_parameters(argv);
-	points = handle_input(argc, argv, env, input);
-	poop_points(env, points); //the drawing portion
+	env->points = handle_input(argc, argv, env, input);
+	poop_points(env, env->points); //the drawing portion
+	mlx_key_hook(env->win, handle_keypress, env);
 	mlx_loop(env->mlx); //needs to be here!
 	return (0);
 }

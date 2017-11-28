@@ -6,7 +6,7 @@
 #    By: sadamant <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/18 17:46:32 by sadamant          #+#    #+#              #
-#    Updated: 2017/11/18 17:46:33 by sadamant         ###   ########.fr        #
+#    Updated: 2017/11/28 21:48:39 by sadamant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fdf
 LIBNAME1 = libft.a #why do I have this here
 LIBNAME2 = libmlx.a #or this
 
-SRC = main.c get_next_line.c input.c images.c draw.c keypress.c rotate.c
+SRC = main.c input.c images.c draw.c keypress.c rotate.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

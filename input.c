@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-static void		exit_error(char *str)
+static void			exit_error(char *str)
 {
 	ft_putendl_fd(str, 2);
 	exit(EXIT_FAILURE);
@@ -43,33 +43,31 @@ int	ft_arrlen(char **arr)
 ** number of points in each line.
 */
 
-static t_input	*grab_input_parameters(int fd, char **line)
+t_input				*grab_input_parameters(char **argv)
 {
+	int		fd;
 	int		rows;
 	int		cols;
-	char	**split;
+	char	**line;
 	t_input	*input;
 
 	cols = 0;
 	rows = 1; //I shouldn't have to initialize this to 1 - should be 0? check gnl output.
-	if (!(input = (t_input *)malloc(sizeof(t_input))))
+	fd = open(argv[1], O_RDONLY);
+	if (!(input = (t_input *)malloc(sizeof(t_input))) || !(line = ft_memalloc(sizeof(char **))))
 		return (NULL);
 	if (get_next_line(fd, line) <= 0)
 		exit_error("error: input file is either empty or does not exist.");
-	split = ft_strsplit(*line, ' ');
-	input->cols = ft_arrlen(split);
-	printf("input->cols: %d\n", input->cols);
+	input->cols = ft_arrlen(ft_strsplit(*line, ' '));
 	while (get_next_line(fd, line) > 0)
 	{
 		rows++;
-		cols = 0;
-		split = ft_strsplit(*line, ' ');
-		cols = ft_arrlen(split);
+		cols = ft_arrlen(ft_strsplit(*line, ' '));
 		if (cols != input->cols)
 			exit_error("error: differing numbers of points per line in input file.");
 	}
 	input->rows = rows;
-	printf("input->rows: %d\n", input->rows);
+	close(fd);
 	return (input);
 }
 
@@ -101,29 +99,22 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 		}
 		j++;
 	}
-	j = j - 1;
-	i = input->cols - 1;
-	printf("points[%d][%d]: %d\n", j, i, points[j][i]->x);
 	return (points);
 }
 
 /*
 ** figure out how to read only once
 */
-t_point				***handle_input(int argc, char **argv, t_session *env)
+t_point				***handle_input(int argc, char **argv, t_session *env, t_input *input)
 {
 	int			fd;
 	char		**line;
-	t_input		*input;
 	t_point		***points;
 
 	if (!(line = ft_memalloc(sizeof(char **))))
 		return (NULL);
 	if (argc != 2)
 		exit_error("usage: ./fdf source_file");
-	fd = open(argv[1], O_RDONLY);
-	input = grab_input_parameters(fd, line);
-	close(fd);
 	fd = open(argv[1], O_RDONLY);
 	points = grab_points(fd, line, input);
 	close(fd);

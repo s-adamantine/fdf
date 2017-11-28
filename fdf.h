@@ -24,12 +24,19 @@
 # define W_WIDTH 600
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
-# define ESC_KEY 53
+# define KEY_ESC 53
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
 # define BPP 24
 # define BPB 8
 # define ENDIAN 0
 # define TOPX 100
 # define TOPY 100
+# define ALPHA 0
+# define BETA 0
+# define GAMMA 0
 
 typedef struct	s_session
 {
@@ -57,7 +64,10 @@ t_input			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_session *env, t_input *input);
 void			poop_points(t_session *env, t_point ***points);
 int				ft_arrlen(char **arr);
-int				destroy_screen(int keycode, t_session *env);
+int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);
 void			point_pairs(t_session *env, t_input *input, t_point ***points);
 void	 		bersenham_points_test(t_session *env);
+void 		   	rotate_x(t_point ***points, int direction);
+void 		   	rotate_y(t_point ***points, int direction);
+// void 		   	rotate_z(t_point ***points, int direction);

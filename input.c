@@ -103,7 +103,7 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 }
 
 /*
-** figure out how to read only once
+** please change my name
 */
 t_point				***handle_input(int argc, char **argv, t_session *env, t_input *input)
 {

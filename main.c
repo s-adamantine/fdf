@@ -23,7 +23,7 @@ t_session	*setup_environment(void)
 	env->bpp = BPP;
 	env->sline = W_WIDTH * BPP; //not sure about this though.
 	env->endian = ENDIAN;
-	mlx_key_hook(env->win, destroy_screen, env);
+	mlx_key_hook(env->win, handle_keypress, env);
 	// new_image(env);
 	return (env);
 }
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	env = setup_environment();
 	// bersenham_points_test(env);
 	input = grab_input_parameters(argv);
-	points = handle_input(argc, argv, env, input); //might not be the best choice of function name - to change
+	points = handle_input(argc, argv, env, input);
 	poop_points(env, points); //the drawing portion
 	mlx_loop(env->mlx); //needs to be here!
 	return (0);

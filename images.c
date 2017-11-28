@@ -40,11 +40,3 @@
 // 	printf("hi");
 // 	mlx_put_image_to_window(env->mlx, env->win, img, 200, 205);
 // }
-
-int		destroy_screen(int keycode, t_session *env)
-{
-	printf("key event %d\n", keycode);
-	if (keycode == ESC_KEY)
-		mlx_destroy_window(env->mlx, env->win);
-	return (1);
-}

@@ -20,8 +20,10 @@ t_session	*setup_environment(void)
 	env = ft_memalloc(sizeof(t_session));
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
-	env->bpp = BPP;
-	env->sline = W_WIDTH * BPP; //not sure about this though.
+	env->bpp = BITSPP;
+	printf("env->bpp: %d\n", env->bpp);
+	printf("bytesp: %d\n", BYTESPP);
+	env->sline = W_WIDTH * BYTESPP;
 	env->endian = ENDIAN;
 	mlx_key_hook(env->win, handle_keypress, env);
 	return (env);

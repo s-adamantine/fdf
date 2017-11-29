@@ -27,8 +27,8 @@
 
 # define TRANSLATION 10
 
-# define BPP 24
-# define BPB 8
+# define BITSPP 32
+# define BYTESPP BITSPP / 8
 # define ENDIAN 0
 # define TOPX 100
 # define TOPY 100

@@ -17,6 +17,7 @@ void 	print_image(t_session *env, t_input	*input)
 	point_pairs(env, input, env->points);
 	print_points(env, env->points); //the drawing portion
 }
+
 // void	new_image(t_session *env)
 // {
 // 	int		i; //the current pixel incremented by bpps.

@@ -12,6 +12,36 @@
 
 #include "fdf.h"
 
+/*
+** up: translate -y : -1
+** down: translate y: 1
+** left: translate -x: -2
+** right: translate +x: 2
+*/
+void		translate(t_session *env, int keypress)
+{
+	int     i;
+	int     j;
+	int		direction;
+
+	j = 0;
+	direction = (keypress == KEY_DOWN || keypress == KEY_RIGHT) ? 1 : -1;
+	while (env->points[j])
+	{
+		i = 0;
+		while (env->points[j][i])
+		{
+			if (keypress == KEY_LEFT || keypress == KEY_RIGHT)
+				env->points[j][i]->x += TRANSLATION * direction;
+			else
+				env->points[j][i]->y += TRANSLATION * direction;
+			i++;
+		}
+		j++;
+	}
+	poop_points(env, env->points);
+}
+
 void    rotate_x(t_point ***points, int direction)
 {
     int     i;

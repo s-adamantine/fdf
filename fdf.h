@@ -24,11 +24,9 @@
 # define W_WIDTH 600
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
-# define KEY_ESC 53
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_DOWN 125
-# define KEY_UP 126
+
+# define TRANSLATION 10
+
 # define BPP 24
 # define BPB 8
 # define ENDIAN 0
@@ -37,6 +35,16 @@
 # define ALPHA 0
 # define BETA 0
 # define GAMMA 0
+
+# define KEY_ESC 53
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
 
 typedef struct 	s_input
 {
@@ -71,4 +79,5 @@ void			point_pairs(t_session *env, t_input *input, t_point ***points);
 void	 		bersenham_points_test(t_session *env);
 void 		   	rotate_x(t_point ***points, int direction);
 void 		   	rotate_y(t_point ***points, int direction);
+void			translate(t_session *env, int keypress);
 // void 		   	rotate_z(t_point ***points, int direction);

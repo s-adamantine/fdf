@@ -71,7 +71,8 @@ typedef struct	s_session
 
 t_input			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_session *env, t_input *input);
-void			poop_points(t_session *env, t_point ***points);
+void			print_points(t_session *env, t_point ***points);
+void 			print_image(t_session *env, t_input *input);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);

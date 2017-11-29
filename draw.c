@@ -131,7 +131,7 @@ void			point_pairs(t_session *env, t_input *input, t_point ***points)
 /*
 ** poops out the 2d representation of how many points are input
 */
-void			poop_points(t_session *env, t_point ***points)
+void			print_points(t_session *env, t_point ***points)
 {
 	int		i;
 	int		j;

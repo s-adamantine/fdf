@@ -39,7 +39,7 @@ void		translate(t_session *env, int keypress)
 		}
 		j++;
 	}
-	poop_points(env, env->points);
+	print_points(env, env->points);
 }
 
 void    rotate_x(t_point ***points, int direction)

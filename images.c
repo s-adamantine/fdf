@@ -12,40 +12,32 @@
 
 #include "fdf.h"
 
-void 	print_image(t_session *env, t_map	*map)
+void 	clear_image(t_session *env, t_image *image)
 {
-	if (map)
-		printf("");
-	clear_image(env);
-	// point_pairs(env, map, env->points);
-	print_points(env, env->points); //the drawing portion
+	ft_bzero(image->pixel_addr, env->sline * W_HEIGHT);
 }
 
-void 	pixel_to_image(int x, int y, int color, char *pixel_addr, t_session *env)
+void 	print_image(t_session *env)
+{
+	clear_image(env, env->image);
+	// point_pairs(env, map, env->points);
+	print_points(env, env->image, env->points); //the drawing portion
+	mlx_put_image_to_window(env->mlx, env->win, env->image->init, IMG_LEFT, IMG_TOP);
+}
+
+void 	pixel_to_image(t_session *env, char *pixel_addr, int x, int y, int color)
 {
 	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
 		return ;
-	pixel_addr[(x * (env->bpp / 8)) + (y * env->sline)] = color;
+	ft_memcpy(&pixel_addr[(x++ * env->bpp/8) + (y * env->sline)], &color, (sizeof(size_t)));
 }
 
-void	new_image(t_session *env)
+t_image	*new_image(t_session *env)
 {
-	int		x;
-	int		y;
-	int		color = 0x0000FF00;
-	void	*img;
-	char	*pixel_addr;
+	t_image	*image;
 
-	img = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
-	pixel_addr = mlx_get_data_addr(img, &(env->bpp), &(env->sline), &(env->endian));
-	// needs to be incremented by bits per pixels.
-	x = 200;
-	y = 300;
-	while (x < 300)
-		ft_memcpy(&pixel_addr[(x++ * 4) + (y * env->sline)], &color, (sizeof(size_t)));
-	mlx_put_image_to_window(env->mlx, env->win, img, 0, 0);
-	x = 200;
-	y = 200;
-	while (x < 300)
-		mlx_pixel_put(env->mlx, env->win, x++, y, 0x0000FF00);
+	image = ft_memalloc(sizeof(t_image));
+	image->init = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
+	image->pixel_addr = mlx_get_data_addr(image->init, &(env->bpp), &(env->sline), &(env->endian));
+	return (image);
 }

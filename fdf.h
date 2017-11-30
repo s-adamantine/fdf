@@ -36,6 +36,9 @@
 # define BETA 0.4
 # define GAMMA 0.2
 
+# define IMG_LEFT 0
+# define IMG_TOP 0
+
 # define KEY_ESC 53
 # define KEY_LEFT 123
 # define KEY_RIGHT 124
@@ -64,6 +67,12 @@ typedef struct	s_point
 	int			z;
 }				t_point;
 
+typedef struct	s_image
+{
+	void		*init;
+	char		*pixel_addr;
+}				t_image;
+
 typedef struct	s_session
 {
 	void		*mlx;
@@ -71,13 +80,14 @@ typedef struct	s_session
 	int			bpp;
 	int			sline;
 	int			endian;
+	t_image		*image;
 	t_point		***points;
 }				t_session;
 
 t_map			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_map *map);
-void			print_points(t_session *env, t_point ***points);
-void 			print_image(t_session *env, t_map *map);
+void			print_points(t_session *env, t_image *image, t_point ***points);
+void 			print_image(t_session *env);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);
@@ -87,5 +97,6 @@ void 		   	rotate_x(t_session *env, int keycode);
 void 		   	rotate_y(t_session *env, int keycode);
 void 		   	rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
-void			new_image(t_session *env);
-void 			clear_image(t_session *env);
+void			pixel_to_image(t_session *env, char *pixel_addr, int x, int y, int color);
+t_image			*new_image(t_session *env);
+void 			clear_image(t_session *env, t_image *image);

@@ -39,8 +39,7 @@ void		translate(t_session *env, int keycode)
 		}
 		j++;
 	}
-	clear_image(env);
-	print_points(env, env->points);
+	print_image(env);
 	// want to change to print_image(env, input)
 	// do I want to even have input in through env though? like. everything??
 	// yeah probably
@@ -71,8 +70,7 @@ void    rotate_x(t_session *env, int keycode)
         }
         j++;
     }
-	clear_image(env);
-	print_points(env, env->points);
+	print_image(env);
 }
 
 void    rotate_y(t_session *env, int keycode)
@@ -98,8 +96,7 @@ void    rotate_y(t_session *env, int keycode)
         }
         j++;
     }
-	clear_image(env);
-	print_points(env, env->points);
+	print_image(env);
 }
 
 void    rotate_z(t_session *env, int keycode)
@@ -125,6 +122,5 @@ void    rotate_z(t_session *env, int keycode)
 		}
 		j++;
 	}
-	clear_image(env);
-	print_points(env, env->points);
+	print_image(env);
 }

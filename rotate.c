@@ -50,7 +50,6 @@ void    rotate_x(t_session *env, int keycode)
 {
     int     i;
     int     j;
-    int		x;
     int		y;
     int		z;
 	int		direction;
@@ -62,12 +61,10 @@ void    rotate_x(t_session *env, int keycode)
         i = 0;
         while (env->points[j][i])
         {
-            x = (double) env->points[j][i]->x;
             y = (double) env->points[j][i]->y;
             z = (double) env->points[j][i]->z;
 			// should cast back to integer automatically hopefully after doing
 			// the double additions/subtractions
-            env->points[j][i]->x = x;
             env->points[j][i]->y = (y * cos(ALPHA * direction)) - (z * sin(ALPHA * direction));
             env->points[j][i]->z = (y * sin(ALPHA * direction)) + (z * cos(ALPHA * direction));
             i++;
@@ -87,22 +84,19 @@ void    rotate_y(t_session *env, int keycode)
     int		i;
     int		j;
     int		x;
-    int		y;
     int		z;
 	int		direction;
 
     j = 0;
-	direction = (keycode == KEY_D) ? 1 : -1;
+	direction = (keycode == KEY_LEFT) ? 1 : -1;
     while (env->points[j])
     {
         i = 0;
         while (env->points[j][i])
         {
             x = env->points[j][i]->x;
-            y = env->points[j][i]->y;
             z = env->points[j][i]->z;
             env->points[j][i]->x = (z * sin(BETA * direction)) + (x * cos(BETA * direction));
-            env->points[j][i]->y = y;
             env->points[j][i]->z = (z * cos(BETA * direction)) - (x * sin(BETA * direction));
             i++;
         }
@@ -112,11 +106,30 @@ void    rotate_y(t_session *env, int keycode)
 	print_points(env, env->points);
 }
 
-// void    rotate_z(t_point ***points, int keycode)
-// {
-//     int     i;
-//     int     j;
-//     int     x;
-//     int     y;
-//     int     z;
-// }
+void    rotate_z(t_session *env, int keycode)
+{
+    int     i;
+    int     j;
+    int     x;
+    int     y;
+	int		direction; //not sure about the direction quite yet.
+
+	j = 0;
+	direction = (keycode == KEY_APOSTROPHE) ? 1 : -1;
+	while (env->points[j])
+	{
+		i = 0;
+		while (env->points[j][i])
+		{
+			x = env->points[j][i]->x;
+			y = env->points[j][i]->y;
+			env->points[j][i]->x = (x * cos(GAMMA * direction)) - (y * sin(GAMMA * direction));
+			env->points[j][i]->y = (x * sin(GAMMA * direction)) + (y * cos(GAMMA * direction));
+			i++;
+		}
+		j++;
+		printf("gamma is: %f", GAMMA);
+	}
+	clear_image(env);
+	print_points(env, env->points);
+}

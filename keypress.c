@@ -21,7 +21,11 @@ int		handle_keypress(int keycode, t_session *env)
 	if (keycode == KEY_ESC)
 		mlx_destroy_window(env->mlx, env->win);
 	// needs to be able to handle points by passing this in as a parameter.
-	if (keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_UP || keycode == KEY_DOWN)
+	if (keycode == KEY_UP || keycode == KEY_DOWN)
+		rotate_x(env, keycode);
+	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+		rotate_y(env, keycode);
+	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
 		translate(env, keycode);
  	return (1);
 }

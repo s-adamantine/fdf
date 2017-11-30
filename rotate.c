@@ -18,20 +18,20 @@
 ** left: translate -x: -2
 ** right: translate +x: 2
 */
-void		translate(t_session *env, int keypress)
+void		translate(t_session *env, int keycode)
 {
 	int     i;
 	int     j;
 	int		direction;
 
 	j = 0;
-	direction = (keypress == KEY_DOWN || keypress == KEY_RIGHT) ? 1 : -1;
+	direction = (keycode == KEY_S || keycode == KEY_D) ? 1 : -1;
 	while (env->points[j])
 	{
 		i = 0;
 		while (env->points[j][i])
 		{
-			if (keypress == KEY_LEFT || keypress == KEY_RIGHT)
+			if (keycode == KEY_A || keycode == KEY_D)
 				env->points[j][i]->x += TRANSLATION * direction;
 			else
 				env->points[j][i]->y += TRANSLATION * direction;
@@ -39,65 +39,77 @@ void		translate(t_session *env, int keypress)
 		}
 		j++;
 	}
+	clear_image(env);
 	print_points(env, env->points);
+	// want to change to print_image(env, input)
+	// do I want to even have input in through env though? like. everything??
+	// yeah probably
 }
 
-void    rotate_x(t_point ***points, int direction)
+void    rotate_x(t_session *env, int keycode)
 {
     int     i;
     int     j;
     int		x;
     int		y;
     int		z;
+	int		direction;
 
     j = 0;
-    while (points[j])
+	direction = (keycode == KEY_UP) ? 1 : -1;
+    while (env->points[j])
     {
         i = 0;
-        while (points[j][i])
+        while (env->points[j][i])
         {
-            x = (double) points[j][i]->x;
-            y = (double) points[j][i]->y;
-            z = (double) points[j][i]->z;
+            x = (double) env->points[j][i]->x;
+            y = (double) env->points[j][i]->y;
+            z = (double) env->points[j][i]->z;
 			// should cast back to integer automatically hopefully after doing
 			// the double additions/subtractions
-            points[j][i]->x = x;
-            points[j][i]->y = (y * cos(ALPHA * direction)) - (z * sin(ALPHA * direction));
-            points[j][i]->z = (y * sin(ALPHA * direction)) + (z * cos(ALPHA * direction));
+            env->points[j][i]->x = x;
+            env->points[j][i]->y = (y * cos(ALPHA * direction)) - (z * sin(ALPHA * direction));
+            env->points[j][i]->z = (y * sin(ALPHA * direction)) + (z * cos(ALPHA * direction));
             i++;
         }
         j++;
     }
+	clear_image(env);
+	print_points(env, env->points);
 }
 
 /*
 ** left: -1
 ** right: 1
 */
-void    rotate_y(t_point ***points, int direction)
+void    rotate_y(t_session *env, int keycode)
 {
     int		i;
     int		j;
     int		x;
     int		y;
     int		z;
+	int		direction;
 
     j = 0;
-    while (points[j])
+	direction = (keycode == KEY_D) ? 1 : -1;
+    while (env->points[j])
     {
         i = 0;
-        while (points[j][i])
+        while (env->points[j][i])
         {
-            x = points[j][i]->x;
-            y = points[j][i]->y;
-            z = points[j][i]->z;
-            points[j][i]->x = (z * sin(BETA * direction)) + (x * cos(BETA * direction));
-            points[j][i]->y = y;
-            points[j][i]->z = (z * cos(BETA * direction)) - (x * sin(BETA * direction));
+            x = env->points[j][i]->x;
+            y = env->points[j][i]->y;
+            z = env->points[j][i]->z;
+            env->points[j][i]->x = (z * sin(BETA * direction)) + (x * cos(BETA * direction));
+            env->points[j][i]->y = y;
+            env->points[j][i]->z = (z * cos(BETA * direction)) - (x * sin(BETA * direction));
             i++;
         }
         j++;
     }
+	clear_image(env);
+	print_points(env, env->points);
 }
 
 // void    rotate_z(t_point ***points, int keycode)
@@ -107,5 +119,4 @@ void    rotate_y(t_point ***points, int direction)
 //     int     x;
 //     int     y;
 //     int     z;
-//
 // }

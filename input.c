@@ -105,7 +105,7 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 /*
 ** please change my name
 */
-t_point				***handle_input(int argc, char **argv, t_session *env, t_input *input)
+t_point				***handle_input(int argc, char **argv, t_input *input)
 {
 	int			fd;
 	char		**line;
@@ -118,6 +118,5 @@ t_point				***handle_input(int argc, char **argv, t_session *env, t_input *input
 	fd = open(argv[1], O_RDONLY);
 	points = grab_points(fd, line, input);
 	close(fd);
-	point_pairs(env, input, points);
 	return (points);
 }

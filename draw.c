@@ -20,6 +20,24 @@
 ** bersenham_y assumes y as the driving axis.
 */
 
+void 	clear_image(t_session *env)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < W_HEIGHT)
+	{
+		x = 0;
+		while (x < W_WIDTH)
+		{
+			mlx_pixel_put(env->mlx, env->win, x, y, 0x00000000);
+			x++;
+		}
+		y++;
+	}
+}
+
 static t_point		**calibrate_direction(t_point	**points)
 {
 	t_point	*temp;

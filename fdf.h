@@ -27,14 +27,14 @@
 
 # define TRANSLATION 10
 
-# define BITSPP 32
+# define BITSPP 24
 # define BYTESPP BITSPP / 8
 # define ENDIAN 0
 # define TOPX 100
 # define TOPY 100
-# define ALPHA 0
-# define BETA 0
-# define GAMMA 0
+# define ALPHA 0.1
+# define BETA 0.1
+# define GAMMA 0.1
 
 # define KEY_ESC 53
 # define KEY_LEFT 123
@@ -45,6 +45,9 @@
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
+
+# define DRAW_XOFFSET 100
+# define DRAW_YOFFSET 100
 
 typedef struct 	s_input
 {
@@ -70,7 +73,7 @@ typedef struct	s_session
 }				t_session;
 
 t_input			*grab_input_parameters(char **argv);
-t_point			***handle_input(int argc, char **argv, t_session *env, t_input *input);
+t_point			***handle_input(int argc, char **argv, t_input *input);
 void			print_points(t_session *env, t_point ***points);
 void 			print_image(t_session *env, t_input *input);
 int				ft_arrlen(char **arr);
@@ -78,7 +81,9 @@ int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);
 void			point_pairs(t_session *env, t_input *input, t_point ***points);
 void	 		bersenham_points_test(t_session *env);
-void 		   	rotate_x(t_point ***points, int direction);
-void 		   	rotate_y(t_point ***points, int direction);
-void			translate(t_session *env, int keypress);
+void 		   	rotate_x(t_session *env, int keycode);
+void 		   	rotate_y(t_session *env, int keycode);
+void			translate(t_session *env, int keycode);
+void			new_image(t_session *env);
+void 			clear_image(t_session *env);
 // void 		   	rotate_z(t_point ***points, int direction);

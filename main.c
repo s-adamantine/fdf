@@ -21,8 +21,6 @@ t_session	*setup_environment(void)
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
 	env->bpp = BITSPP;
-	printf("env->bpp: %d\n", env->bpp);
-	printf("bytesp: %d\n", BYTESPP);
 	env->sline = W_WIDTH * BYTESPP;
 	env->endian = ENDIAN;
 	mlx_key_hook(env->win, handle_keypress, env);
@@ -34,11 +32,14 @@ int	main(int argc, char **argv)
 	t_session	*env;
 	t_input		*input;
 
+	if (argc)
+		printf("");
 	env = setup_environment();
 	// bersenham_points_test(env);
 	input = grab_input_parameters(argv);
-	env->points = handle_input(argc, argv, env, input);
+	env->points = handle_input(argc, argv, input);
 	print_image(env, input);
+	// new_image(env);
 	mlx_key_hook(env->win, handle_keypress, env);
 	mlx_loop(env->mlx); //needs to be here!
 	return (0);

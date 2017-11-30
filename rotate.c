@@ -124,7 +124,6 @@ void    rotate_z(t_session *env, int keycode)
 			i++;
 		}
 		j++;
-		printf("gamma is: %f", GAMMA);
 	}
 	clear_image(env);
 	print_points(env, env->points);

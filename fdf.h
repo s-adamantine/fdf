@@ -25,7 +25,7 @@
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
 
-# define TRANSLATION 10
+# define TRANSLATION 30
 
 # define BITSPP 24
 # define BYTESPP BITSPP / 8

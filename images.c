@@ -21,17 +21,18 @@ void 	print_image(t_session *env, t_map	*map)
 	print_points(env, env->points); //the drawing portion
 }
 
-// void	image_set_pixel(t_session *env, int x, int y, int color)
-// {
-// 	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
-// 		return ;
-// 	pixel_addr + ((x + y * WIN_WIDTH) * env->bpp)) = color;
-// }
+void 	pixel_to_image(int x, int y, int color, char *pixel_addr, t_session *env)
+{
+	if (x < 0 || x >= W_WIDTH || y < 0 || y >= W_HEIGHT)
+		return ;
+	pixel_addr[(x * (env->bpp / 8)) + (y * env->sline)] = color;
+}
 
 void	new_image(t_session *env)
 {
-	int		i; //the current pixel incremented by bpps.
 	int		x;
+	int		y;
+	int		color = 0x0000FF00;
 	void	*img;
 	char	*pixel_addr;
 
@@ -39,10 +40,12 @@ void	new_image(t_session *env)
 	pixel_addr = mlx_get_data_addr(img, &(env->bpp), &(env->sline), &(env->endian));
 	// needs to be incremented by bits per pixels.
 	x = 200;
+	y = 300;
 	while (x < 300)
-		mlx_pixel_put(env->mlx, env->win, x++, 200, 0x0000FF00);
-	i = 0;
-	while (i < 11)
-		pixel_addr[i++ * (env->bpp / 8)] = mlx_get_color_value(env->mlx, 0x0000FF00);
-	mlx_put_image_to_window(env->mlx, env->win, img, 300, 300);
+		ft_memcpy(&pixel_addr[(x++ * 4) + (y * env->sline)], &color, (sizeof(size_t)));
+	mlx_put_image_to_window(env->mlx, env->win, img, 0, 0);
+	x = 200;
+	y = 200;
+	while (x < 300)
+		mlx_pixel_put(env->mlx, env->win, x++, y, 0x0000FF00);
 }

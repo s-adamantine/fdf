@@ -94,7 +94,7 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 			points[j][i] = ft_memalloc(sizeof(t_point));
 			points[j][i]->x = i * TILE_WIDTH;
 			points[j][i]->y = j * TILE_HEIGHT;
-			points[j][i]->z = ft_atoi(zvalues[i]);
+			points[j][i]->z = ft_atoi(zvalues[i]) * TILE_HEIGHT;
 			i++;
 		}
 		j++;

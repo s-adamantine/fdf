@@ -12,11 +12,12 @@
 
 #include "fdf.h"
 
-void 	print_image(t_session *env, t_input	*input)
+void 	print_image(t_session *env, t_map	*map)
 {
-	if (input)
+	if (map)
 		printf("");
-	// point_pairs(env, input, env->points);
+	clear_image(env);
+	// point_pairs(env, map, env->points);
 	print_points(env, env->points); //the drawing portion
 }
 

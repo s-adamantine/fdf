@@ -112,7 +112,7 @@ void				connect_points(t_session *env, t_point **points)
 /*
 ** god rename me please.
 */
-void			point_pairs(t_session *env, t_input *input, t_point ***points)
+void			point_pairs(t_session *env, t_map *map, t_point ***points)
 {
 	int		i;
 	int 	j;
@@ -120,10 +120,10 @@ void			point_pairs(t_session *env, t_input *input, t_point ***points)
 
 	j = 0;
 	pair = ft_memalloc(sizeof(t_point *) * 2);
-	while (j < input->rows - 1)
+	while (j < map->rows - 1)
 	{
 		i = 0;
-		while (i < input->cols)
+		while (i < map->cols)
 		{
 			pair[0] = points[j][i];
 			pair[1] = points[j + 1][i];
@@ -133,10 +133,10 @@ void			point_pairs(t_session *env, t_input *input, t_point ***points)
 		j++;
 	}
 	j = 0;
-	while (j < input->rows)
+	while (j < map->rows)
 	{
 		i = 0;
-		while (i < input->cols - 1)
+		while (i < map->cols - 1)
 		{
 			pair[0] = points[j][i];
 			pair[1] = points[j][i + 1];

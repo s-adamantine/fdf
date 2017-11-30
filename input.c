@@ -43,52 +43,52 @@ int	ft_arrlen(char **arr)
 ** number of points in each line.
 */
 
-t_input				*grab_input_parameters(char **argv)
+t_map				*grab_input_parameters(char **argv)
 {
 	int		fd;
 	int		rows;
 	int		cols;
 	char	**line;
-	t_input	*input;
+	t_map	*map;
 
 	cols = 0;
 	rows = 1; //I shouldn't have to initialize this to 1 - should be 0? check gnl output.
 	fd = open(argv[1], O_RDONLY);
-	if (!(input = (t_input *)malloc(sizeof(t_input))) || !(line = ft_memalloc(sizeof(char **))))
+	if (!(map = (t_map *)malloc(sizeof(t_map))) || !(line = ft_memalloc(sizeof(char **))))
 		return (NULL);
 	if (get_next_line(fd, line) <= 0)
 		exit_error("error: input file is either empty or does not exist.");
-	input->cols = ft_arrlen(ft_strsplit(*line, ' '));
+	map->cols = ft_arrlen(ft_strsplit(*line, ' '));
 	while (get_next_line(fd, line) > 0)
 	{
 		rows++;
 		cols = ft_arrlen(ft_strsplit(*line, ' '));
-		if (cols != input->cols)
+		if (cols != map->cols)
 			exit_error("error: differing numbers of points per line in input file.");
 	}
-	input->rows = rows;
+	map->rows = rows;
 	close(fd);
-	return (input);
+	return (map);
 }
 
 /*
 ** need to check for invalid characters here.
 */
-static t_point		***grab_points(int fd, char **line, t_input *input)
+static t_point		***grab_points(int fd, char **line, t_map *map)
 {
 	int		i;
 	int		j;
 	char	**zvalues;
 	t_point	***points;
 
-	if (!(points = ft_memalloc(sizeof(t_point **) * (input->rows + 1))))
+	if (!(points = ft_memalloc(sizeof(t_point **) * (map->rows + 1))))
 		return (NULL);
 	j = 0;
 	while (get_next_line(fd, line) > 0)
 	{
 		i = 0;
 		zvalues = ft_strsplit(*line, ' ');
-		points[j] = ft_memalloc(sizeof(t_point *)* (input->cols + 1));
+		points[j] = ft_memalloc(sizeof(t_point *)* (map->cols + 1));
 		while (zvalues[i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
@@ -105,7 +105,7 @@ static t_point		***grab_points(int fd, char **line, t_input *input)
 /*
 ** please change my name
 */
-t_point				***handle_input(int argc, char **argv, t_input *input)
+t_point				***handle_input(int argc, char **argv, t_map *map)
 {
 	int			fd;
 	char		**line;
@@ -116,7 +116,7 @@ t_point				***handle_input(int argc, char **argv, t_input *input)
 	if (argc != 2)
 		exit_error("usage: ./fdf source_file");
 	fd = open(argv[1], O_RDONLY);
-	points = grab_points(fd, line, input);
+	points = grab_points(fd, line, map);
 	close(fd);
 	return (points);
 }

@@ -30,15 +30,15 @@ t_session	*setup_environment(void)
 int	main(int argc, char **argv)
 {
 	t_session	*env;
-	t_input		*input;
+	t_map		*map;
 
 	if (argc)
 		printf("");
 	env = setup_environment();
 	// bersenham_points_test(env);
-	input = grab_input_parameters(argv);
-	env->points = handle_input(argc, argv, input);
-	print_image(env, input);
+	map = grab_input_parameters(argv);
+	env->points = handle_input(argc, argv, map);
+	print_image(env, map);
 	// new_image(env);
 	mlx_key_hook(env->win, handle_keypress, env);
 	mlx_loop(env->mlx); //needs to be here!

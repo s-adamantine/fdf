@@ -75,10 +75,6 @@ void    rotate_x(t_session *env, int keycode)
 	print_points(env, env->points);
 }
 
-/*
-** left: -1
-** right: 1
-*/
 void    rotate_y(t_session *env, int keycode)
 {
     int		i;
@@ -112,10 +108,10 @@ void    rotate_z(t_session *env, int keycode)
     int     j;
     int     x;
     int     y;
-	int		direction; //not sure about the direction quite yet.
+	int		direction;
 
 	j = 0;
-	direction = (keycode == KEY_APOSTROPHE) ? 1 : -1;
+	direction = (keycode == KEY_FSLASH) ? 1 : -1;
 	while (env->points[j])
 	{
 		i = 0;

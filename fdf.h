@@ -32,9 +32,9 @@
 # define ENDIAN 0
 # define TOPX 100
 # define TOPY 100
-# define ALPHA 0.1
-# define BETA 0.1
-# define GAMMA 0.1
+# define ALPHA 0.4
+# define BETA 0.4
+# define GAMMA 0.2
 
 # define KEY_ESC 53
 # define KEY_LEFT 123
@@ -51,11 +51,11 @@
 # define DRAW_XOFFSET 100
 # define DRAW_YOFFSET 100
 
-typedef struct 	s_input
+typedef struct 	s_map
 {
 	int			rows;
 	int			cols;
-}				t_input;
+}				t_map;
 
 typedef struct	s_point
 {
@@ -74,14 +74,14 @@ typedef struct	s_session
 	t_point		***points;
 }				t_session;
 
-t_input			*grab_input_parameters(char **argv);
-t_point			***handle_input(int argc, char **argv, t_input *input);
+t_map			*grab_input_parameters(char **argv);
+t_point			***handle_input(int argc, char **argv, t_map *map);
 void			print_points(t_session *env, t_point ***points);
-void 			print_image(t_session *env, t_input *input);
+void 			print_image(t_session *env, t_map *map);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point **points);
-void			point_pairs(t_session *env, t_input *input, t_point ***points);
+void			point_pairs(t_session *env, t_map *map, t_point ***points);
 void	 		bersenham_points_test(t_session *env);
 void 		   	rotate_x(t_session *env, int keycode);
 void 		   	rotate_y(t_session *env, int keycode);

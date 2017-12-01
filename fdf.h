@@ -54,6 +54,9 @@
 # define DRAW_XOFFSET 100
 # define DRAW_YOFFSET 100
 
+#define POINT_COLOR 0x0000FF00
+#define LINE_COLOR 0x00FFFFFF
+
 typedef struct 	s_map
 {
 	int			rows;

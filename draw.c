@@ -20,23 +20,6 @@
 // ** bersenham_y assumes y as the driving axis.
 // */
 //
-// void 	clear_image(t_session *env)
-// {
-// 	int x;
-// 	int y;
-//
-// 	y = 0;
-// 	while (y < W_HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < W_WIDTH)
-// 		{
-// 			mlx_pixel_put(env, x, y, 0x00000000);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 //
 // static t_point		**calibrate_direction(t_point	**points)
 // {
@@ -149,7 +132,7 @@
 /*
 ** poops out the 2d representation of how many points are input
 */
-void			print_points(t_session *env, t_image *image, t_point ***points)
+void			print_points(t_image *image, t_point ***points)
 {
 	int		i;
 	int		j;
@@ -160,9 +143,9 @@ void			print_points(t_session *env, t_image *image, t_point ***points)
 		i = 0;
 		while (points[j][i])
 		{
-			pixel_to_image(env, image->pixel_addr, points[j][i]->x, points[j][i]->y, 0x00FFFFFF);
+			pixel_to_image(image, points[j][i]->x, points[j][i]->y, 0x00FFFFFF);
 			if (points[j][i]->z > 0)
-				pixel_to_image(env, image->pixel_addr, points[j][i]->x, points[j][i]->y, 0x0000FF00);
+				pixel_to_image(image, points[j][i]->x, points[j][i]->y, 0x0000FF00);
 			i++;
 		}
 		j++;

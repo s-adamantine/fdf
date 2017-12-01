@@ -69,6 +69,8 @@ typedef struct	s_point
 
 typedef struct	s_image
 {
+	int			bpp;
+	int			sline;
 	void		*init;
 	char		*pixel_addr;
 }				t_image;
@@ -77,8 +79,6 @@ typedef struct	s_session
 {
 	void		*mlx;
 	void		*win;
-	int			bpp;
-	int			sline;
 	int			endian;
 	t_image		*image;
 	t_point		***points;
@@ -86,7 +86,7 @@ typedef struct	s_session
 
 t_map			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_map *map);
-void			print_points(t_session *env, t_image *image, t_point ***points);
+void			print_points(t_image *image, t_point ***points);
 void 			print_image(t_session *env);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
@@ -97,6 +97,6 @@ void 		   	rotate_x(t_session *env, int keycode);
 void 		   	rotate_y(t_session *env, int keycode);
 void 		   	rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
-void			pixel_to_image(t_session *env, char *pixel_addr, int x, int y, int color);
+void			pixel_to_image(t_image *image, int x, int y, int color);
 t_image			*new_image(t_session *env);
-void 			clear_image(t_session *env, t_image *image);
+void 			clear_image(t_image *image);

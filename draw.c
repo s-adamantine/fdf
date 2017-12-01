@@ -12,18 +12,17 @@
 
 #include "fdf.h"
 
-// static t_point		**calibrate_direction(t_point *start, t_point *end)
-// {
-// 	t_point	*temp;
-//
-// 	if (start->x > end->x)
-// 	{
-// 		temp = start;
-// 		start = end;
-// 		end = temp;
-// 	}
-// 	return (points);
-// }
+static void		calibrate_direction(t_point *start, t_point *end)
+{
+	t_point	*temp;
+
+	if (start->x > end->x)
+	{
+		temp = start;
+		start = end;
+		end = temp;
+	}
+}
 
 // i think this overlaps the last pixel, if that matters?
 static void			draw_vertical(t_session *env, t_point *start, t_point *end)
@@ -50,19 +49,81 @@ static void			draw_horizontal(t_session *env, t_point *start, t_point *end)
 	}
 }
 
+static void			draw_drivingx(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
+{
+	int x;
+	int y;
+	int	error;
+
+	x = start->x;
+	y = start->y;
+	error = abs(deltax / 2);
+	//calibrate direction here.
+	while (x <= end->x)
+	{
+		deltax > 0? x++ : x--; //or x--, depending.
+		error = error + deltay;
+		if (error >= deltax)
+		{
+			error = error - abs(deltax);
+			deltay > 0? y++: y--;
+		}
+		pixel_to_image(image, x, y, 0x00FF0000);
+	}
+}
+
+static void 		draw_drivingy(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
+{
+	int	i;
+	int x;
+	int y;
+	int xinc;
+	int yinc;
+	int error;
+
+	if (end)
+		printf("");
+	i = 1;
+	error = deltay / 2;
+	x = start->x;
+	y = start->y;
+	xinc = (deltax > 0) ? 1 : -1;
+	yinc = (deltay > 0) ? 1 : -1;
+	deltax = abs(deltax);
+	deltay = abs(deltay);
+	while (i++ <= deltay)
+	{
+		y += yinc;
+		if (error >= deltay)
+		{
+			error = error - deltay;
+			x += xinc;
+		}
+		pixel_to_image(image, x, y, 0x00FF0000);
+	}
+}
+
 void				connect_points(t_session *env, t_point *start, t_point *end)
 {
+	int		x;
+	int		y;
 	int 	deltax;
 	int 	deltay;
-	// int		error;
 
-	// points = calibrate_direction(points);
+	x = start->x;
+	y = start->y;
+	calibrate_direction(start, end);
 	deltax = end->x - start->x;
 	deltay = end->y - start->y;
+	printf("deltax: %d, deltay: %d\n", deltax, deltay);
 	if (deltax == 0)
 		return (draw_vertical(env, start, end));
-	else if (deltay == 0)
+	if (deltay == 0)
 		return (draw_horizontal(env, start, end));
+	if (deltax > deltay)
+		return (draw_drivingx(env->image, start, end, deltax, deltay));
+	if (deltay > deltax)
+		return (draw_drivingy(env->image, start, end, deltax, deltay));
 }
 
 void			print_lines(t_session *env, t_map *map, t_point ***points)
@@ -81,7 +142,6 @@ void			print_lines(t_session *env, t_map *map, t_point ***points)
 			i++;
 		}
 		j++;
-		printf("j is %d\n", j);
 	}
 	// connecting across the y axis
 	j = 0;

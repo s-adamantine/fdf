@@ -83,6 +83,7 @@ typedef struct	s_session
 	void		*mlx;
 	void		*win;
 	int			endian;
+	t_map		*map;
 	t_image		*image;
 	t_point		***points;
 }				t_session;
@@ -93,8 +94,8 @@ void			print_points(t_image *image, t_point ***points);
 void 			print_image(t_session *env);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
-void			connect_points(t_session *env, t_point **points);
-void			point_pairs(t_session *env, t_map *map, t_point ***points);
+void			connect_points(t_session *env, t_point *start, t_point *end);
+void			print_lines(t_session *env, t_map *map, t_point ***points);
 void	 		bersenham_points_test(t_session *env);
 void 		   	rotate_x(t_session *env, int keycode);
 void 		   	rotate_y(t_session *env, int keycode);

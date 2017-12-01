@@ -40,9 +40,6 @@ void		translate(t_session *env, int keycode)
 		j++;
 	}
 	print_image(env);
-	// want to change to print_image(env, input)
-	// do I want to even have input in through env though? like. everything??
-	// yeah probably
 }
 
 void    rotate_x(t_session *env, int keycode)

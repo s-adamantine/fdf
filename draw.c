@@ -12,128 +12,91 @@
 
 #include "fdf.h"
 
-/*
-** use bresenham's line algorithm to connect two different points together.
-** y = m(x - xo) + yo
-** bersenham_x assumes x as the driving axis (x is always incremented, y may or
-** may not be.
-** bersenham_y assumes y as the driving axis.
-*/
-
-
-static t_point		**calibrate_direction(t_point	**points)
-{
-	t_point	*temp;
-
-	if (points[0]->x > points[1]->x)
-	{
-		temp = points[0];
-		points[0] = points[1];
-		points[1] = temp;
-	}
-	return (points);
-}
+// static t_point		**calibrate_direction(t_point *start, t_point *end)
+// {
+// 	t_point	*temp;
+//
+// 	if (start->x > end->x)
+// 	{
+// 		temp = start;
+// 		start = end;
+// 		end = temp;
+// 	}
+// 	return (points);
+// }
 
 // i think this overlaps the last pixel, if that matters?
-static void			draw_vertical(t_session *env, t_point **points)
+static void			draw_vertical(t_session *env, t_point *start, t_point *end)
 {
-	while (points[0]->y != points[1]->y)
+	int		y;
+
+	y = start->y;
+	while (y != end->y)
 	{
-		if (points[0]->y < points[1]->y)
-			pixel_to_image(env->image, points[0]->x, (points[0]->y)++, 0x00FF0000);
-		else if (points[0]->y > points[1]->y)
-			pixel_to_image(env->image, points[0]->x, (points[0]->y)--, 0x00FF0000);
+		pixel_to_image(env->image, start->x, y, 0x00FF0000);
+		y < end->y ? y++ : y--;
 	}
 }
 
-static void			draw_horizontal(t_session *env, t_point **points)
+static void			draw_horizontal(t_session *env, t_point *start, t_point *end)
 {
-	while (points[0]->x != points[1]->x)
+	int		x;
+
+	x = start->x;
+	while (x != end->x)
 	{
-		if (points[0]->x < points[1]->x)
-			pixel_to_image(env->image, (points[0]->x)++, points[0]->y, 0x000000FF);
-		else if (points[0]->x > points[1]->x)
-			pixel_to_image(env->image, (points[0]->x)--, points[0]->y, 0x000000FF);
+		pixel_to_image(env->image, x, start->y, 0x00FF0000);
+		x < end->x ? x++ : x--;
 	}
 }
 
-/*
-** figure out how to change the driving axes
-** going to connect it w/ point pairs
-*/
-void				connect_points(t_session *env, t_point **points)
+void				connect_points(t_session *env, t_point *start, t_point *end)
 {
-	int 	x;
-	int 	y;
 	int 	deltax;
 	int 	deltay;
-	int		error;
+	// int		error;
 
-	points = calibrate_direction(points);
-	x = points[0]->x;
-	y = points[0]->y;
-	deltax = points[1]->x - points[0]->x;
-	deltay = points[1]->y - points[0]->y;
+	// points = calibrate_direction(points);
+	deltax = end->x - start->x;
+	deltay = end->y - start->y;
 	if (deltax == 0)
-		return (draw_vertical(env, points));
+		return (draw_vertical(env, start, end));
 	else if (deltay == 0)
-		return (draw_horizontal(env, points));
-	error = abs(deltay - deltax);
-	while (x <= points[1]->x)
-	{
-		pixel_to_image(env->image, x, y, 0x00FF0000);
-		while (error >= 0) //don't make error abs here.
-		{
-			deltay / deltax >= 0? y++: y--;
-			error = error - abs(deltax);
-		}
-		x++;
-		error = error + abs(deltay);
-	}
+		return (draw_horizontal(env, start, end));
 }
 
-/*
-** god rename me please.
-*/
-void			draw_line(t_session *env, t_map *map, t_point ***points)
+void			print_lines(t_session *env, t_map *map, t_point ***points)
 {
 	int			i;
 	int 		j;
-	t_point		**pair;
 
 	j = 0;
-	pair = ft_memalloc(sizeof(t_point *) * 2);
 	// connecting across the y axis
 	while (j < map->rows - 1)
 	{
 		i = 0;
 		while (i < map->cols)
 		{
-			pair[0] = points[j][i];
-			pair[1] = points[j + 1][i];
-			connect_points(env, pair);
+			connect_points(env, points[j][i], points[j + 1][i]);
 			i++;
 		}
 		j++;
+		printf("j is %d\n", j);
 	}
-	j = 0;
 	// connecting across the y axis
+	j = 0;
 	while (j < map->rows)
 	{
 		i = 0;
 		while (i < map->cols - 1)
 		{
-			pair[0] = points[j][i];
-			pair[1] = points[j][i + 1];
-			connect_points(env, pair);
+			connect_points(env, points[j][i], points[j][i + 1]);
 			i++;
 		}
 		j++;
 	}
 }
-/*
-** poops out the 2d representation of how many points are input
-*/
+
 void			print_points(t_image *image, t_point ***points)
 {
 	int		i;
@@ -145,7 +108,10 @@ void			print_points(t_image *image, t_point ***points)
 		i = 0;
 		while (points[j][i])
 		{
-			pixel_to_image(image, points[j][i]->x, points[j][i]->y, POINT_COLOR);
+			if (points[j][i]->z > 0)
+				pixel_to_image(image, points[j][i]->x, points[j][i]->y, POINT_COLOR);
+			else
+				pixel_to_image(image, points[j][i]->x, points[j][i]->y, 0x00FFFFFF);
 			i++;
 		}
 		j++;

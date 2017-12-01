@@ -28,17 +28,15 @@ t_session	*setup_environment(void)
 int			main(int argc, char **argv)
 {
 	t_session	*env;
-	t_map		*map;
 
 	if (argc)
 		printf("");
 	env = setup_environment();
-	// bersenham_points_test(env);
-	map = grab_input_parameters(argv);
-	env->points = handle_input(argc, argv, map);
+	env->map = grab_input_parameters(argv);
+	env->points = handle_input(argc, argv, env->map);
 	env->image = new_image(env);
 	print_image(env);
-	mlx_key_hook(env->win, handle_keypress, env);
+	// mlx_key_hook(env->win, handle_keypress, env);
 	mlx_loop(env->mlx); //needs to be here!
 	return (0);
 }

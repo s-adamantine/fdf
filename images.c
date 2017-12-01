@@ -20,7 +20,7 @@ void 	clear_image(t_image *image)
 void 	print_image(t_session *env)
 {
 	clear_image(env->image);
-	// point_pairs(env, map, env->points);
+	print_lines(env, env->map, env->points);
 	print_points(env->image, env->points); //the drawing portion
 	mlx_put_image_to_window(env->mlx, env->win, env->image->init, IMG_LEFT, IMG_TOP);
 }

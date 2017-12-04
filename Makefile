@@ -22,6 +22,8 @@ FLAGS = -Wall -Wextra -Werror -framework AppKit -framework OpenGL
 
 LIB1 = -L./$(LIBDIR1) -lft
 LIB2 = -L./$(LIBDIR2) -lmlx
+LIBMATH = -lm
+LIBS = $(LIB1) $(LIB2) $(LIBMATH)
 LIBDIR1 = libft/
 LIBDIR2 = minilibx_macos/
 
@@ -31,7 +33,7 @@ $(NAME):
 	@$(MAKE) -C $(LIBDIR1)
 	@$(MAKE) -C $(LIBDIR2)
 	#match libft's makefile w/ the one for fillit
-	$(CC) $(FLAGS) $(SRC) $(LIB1) $(LIB2) -I libft -I minilibx_macos/ -o $(NAME)
+	$(CC) $(FLAGS) $(SRC) $(LIBS) -I libft -I minilibx_macos/ -o $(NAME)
 
 clean:
 	@$(MAKE) clean -C $(LIBDIR1)

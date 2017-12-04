@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-static void			draw_vertical(t_session *env, t_point *start, t_point *end)
+static void		draw_vertical(t_session *env, t_point *start, t_point *end)
 {
 	int		y;
 
@@ -24,7 +24,7 @@ static void			draw_vertical(t_session *env, t_point *start, t_point *end)
 	}
 }
 
-static void			draw_horizontal(t_session *env, t_point *start, t_point *end)
+static void		draw_horizontal(t_session *env, t_point *start, t_point *end)
 {
 	int		x;
 
@@ -36,7 +36,8 @@ static void			draw_horizontal(t_session *env, t_point *start, t_point *end)
 	}
 }
 
-static void			draw_drivingx(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
+static void		draw_drivingx(t_image *image, t_point *start, t_point *end, \
+	int deltax, int deltay)
 {
 	int i;
 	int x;
@@ -51,18 +52,18 @@ static void			draw_drivingx(t_image *image, t_point *start, t_point *end, int de
 	error = abs(deltax / 2);
 	while (i++ <= abs(deltax))
 	{
-		deltax > 0? x++ : x--;
+		deltax > 0 ? x++ : x--;
 		error = error + abs(deltay);
 		if (error >= abs(deltax))
 		{
 			error = error - abs(deltax);
-			deltay > 0? y++: y--;
+			deltay > 0 ? y++ : y--;
 		}
 		pixel_to_image(image, x, y, LINE_COLOR);
 	}
 }
 
-static void 		draw_drivingy(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
+static void		draw_drivingy(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
 {
 	int		i;
 	int 	x;
@@ -88,12 +89,12 @@ static void 		draw_drivingy(t_image *image, t_point *start, t_point *end, int de
 	}
 }
 
-void				connect_points(t_session *env, t_point *start, t_point *end)
+void			connect_points(t_session *env, t_point *start, t_point *end)
 {
 	int		x;
 	int		y;
-	int 	deltax;
-	int 	deltay;
+	int		deltax;
+	int		deltay;
 
 	x = start->x;
 	y = start->y;

@@ -10,20 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h> //open
-#include <stdlib.h> //malloc, free
-#include <string.h> //strerror
-#include <stdio.h> //for printf
-#include <unistd.h> //for close, write
-#include <math.h>
-#include "mlx.h"
-#include "libft.h"
-#include "get_next_line.h"
+#ifndef FDF_H
+# define FDF_H
+
+# include <fcntl.h> //open
+# include <stdlib.h> //malloc, free
+# include <string.h> //strerror
+# include <stdio.h> //for printf
+# include <unistd.h> //for close, write
+# include <math.h>
+# include "mlx.h"
+# include "libft.h"
+# include "get_next_line.h"
 
 # define W_HEIGHT 600
 # define W_WIDTH 600
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
+# define TILE_Z 5
 
 # define TRANSLATION 30
 
@@ -54,10 +58,10 @@
 # define DRAW_XOFFSET 100
 # define DRAW_YOFFSET 100
 
-#define POINT_COLOR 0x0000FF00
-#define LINE_COLOR 0x00FFFFFF
+# define POINT_COLOR 0x0000FF00
+# define LINE_COLOR 0x00FFFFFF
 
-typedef struct 	s_map
+typedef struct	s_map
 {
 	int			rows;
 	int			cols;
@@ -91,16 +95,18 @@ typedef struct	s_session
 t_map			*grab_input_parameters(char **argv);
 t_point			***handle_input(int argc, char **argv, t_map *map);
 void			print_points(t_image *image, t_point ***points);
-void 			print_image(t_session *env);
+void			print_image(t_session *env);
 int				ft_arrlen(char **arr);
 int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point *start, t_point *end);
 void			print_lines(t_session *env, t_map *map, t_point ***points);
-void	 		bersenham_points_test(t_session *env);
-void 		   	rotate_x(t_session *env, int keycode);
-void 		   	rotate_y(t_session *env, int keycode);
-void 		   	rotate_z(t_session *env, int keycode);
+void			bersenham_points_test(t_session *env);
+void			rotate_x(t_session *env, int keycode);
+void			rotate_y(t_session *env, int keycode);
+void			rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
 void			pixel_to_image(t_image *image, int x, int y, int color);
 t_image			*new_image(t_session *env);
-void 			clear_image(t_image *image);
+void			clear_image(t_image *image);
+
+#endif

@@ -25,7 +25,8 @@ int		handle_keypress(int keycode, t_session *env)
 		rotate_y(env, keycode);
 	if (keycode == KEY_APOSTROPHE || keycode == KEY_FSLASH)
 		rotate_z(env, keycode);
-	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
+	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || \
+		keycode == KEY_D)
 		translate(env, keycode);
- 	return (1);
+	return (1);
 }

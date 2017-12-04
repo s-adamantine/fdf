@@ -36,7 +36,6 @@ int			main(int argc, char **argv)
 	env->points = handle_input(argc, argv, env->map);
 	env->image = new_image(env);
 	print_image(env);
-	// mlx_key_hook(env->win, handle_keypress, env);
-	mlx_loop(env->mlx); //needs to be here!
+	mlx_loop(env->mlx);
 	return (0);
 }

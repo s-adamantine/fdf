@@ -12,17 +12,18 @@
 
 #include "fdf.h"
 
-static void		calibrate_direction(t_point *start, t_point *end)
-{
-	t_point	*temp;
-
-	if (start->x > end->x)
-	{
-		temp = start;
-		start = end;
-		end = temp;
-	}
-}
+// static void		calibrate_direction(t_point **start, t_point **end)
+// {
+// 	t_point	**temp;
+//
+// 	if (start->y > end->y)
+// 	{
+// 		*temp = start;
+// 		start = end;
+// 		end = temp;
+// 	}
+// 	printf("end of calibrate direction, start->y: %d, end->y: %d\n", start->y, end->y);
+// }
 
 // i think this overlaps the last pixel, if that matters?
 static void			draw_vertical(t_session *env, t_point *start, t_point *end)
@@ -32,7 +33,7 @@ static void			draw_vertical(t_session *env, t_point *start, t_point *end)
 	y = start->y;
 	while (y != end->y)
 	{
-		pixel_to_image(env->image, start->x, y, 0x00FF0000);
+		pixel_to_image(env->image, start->x, y, LINE_COLOR);
 		y < end->y ? y++ : y--;
 	}
 }
@@ -44,62 +45,60 @@ static void			draw_horizontal(t_session *env, t_point *start, t_point *end)
 	x = start->x;
 	while (x != end->x)
 	{
-		pixel_to_image(env->image, x, start->y, 0x00FF0000);
+		pixel_to_image(env->image, x, start->y, LINE_COLOR);
 		x < end->x ? x++ : x--;
 	}
 }
 
 static void			draw_drivingx(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
 {
+	int i;
 	int x;
 	int y;
 	int	error;
 
+	if (end)
+		printf("");
+	i = 0;
 	x = start->x;
 	y = start->y;
 	error = abs(deltax / 2);
-	//calibrate direction here.
-	while (x <= end->x)
+	while (i++ <= abs(deltax))
 	{
-		deltax > 0? x++ : x--; //or x--, depending.
-		error = error + deltay;
-		if (error >= deltax)
+		deltax > 0? x++ : x--;
+		error = error + abs(deltay);
+		if (error >= abs(deltax))
 		{
 			error = error - abs(deltax);
 			deltay > 0? y++: y--;
 		}
-		pixel_to_image(image, x, y, 0x00FF0000);
+		pixel_to_image(image, x, y, LINE_COLOR);
 	}
 }
 
 static void 		draw_drivingy(t_image *image, t_point *start, t_point *end, int deltax, int deltay)
 {
-	int	i;
-	int x;
-	int y;
-	int xinc;
-	int yinc;
-	int error;
+	int		i;
+	int 	x;
+	int		y;
+	int 	error;
 
 	if (end)
 		printf("");
-	i = 1;
-	error = deltay / 2;
+	i = 0;
 	x = start->x;
 	y = start->y;
-	xinc = (deltax > 0) ? 1 : -1;
-	yinc = (deltay > 0) ? 1 : -1;
-	deltax = abs(deltax);
-	deltay = abs(deltay);
-	while (i++ <= deltay)
+	error = abs(deltay / 2);
+	while (i++ <= abs(deltay))
 	{
-		y += yinc;
-		if (error >= deltay)
+		deltay > 0? y++ : y--;
+		error = error + abs(deltax);
+		if (error >= abs(deltay))
 		{
-			error = error - deltay;
-			x += xinc;
+			error = error - abs(deltay);
+			deltax > 0 ? x++ : x--;
 		}
-		pixel_to_image(image, x, y, 0x00FF0000);
+		pixel_to_image(image, x, y, LINE_COLOR);
 	}
 }
 
@@ -112,7 +111,6 @@ void				connect_points(t_session *env, t_point *start, t_point *end)
 
 	x = start->x;
 	y = start->y;
-	calibrate_direction(start, end);
 	deltax = end->x - start->x;
 	deltay = end->y - start->y;
 	printf("deltax: %d, deltay: %d\n", deltax, deltay);
@@ -120,9 +118,9 @@ void				connect_points(t_session *env, t_point *start, t_point *end)
 		return (draw_vertical(env, start, end));
 	if (deltay == 0)
 		return (draw_horizontal(env, start, end));
-	if (deltax > deltay)
+	if (abs(deltax) >= abs(deltay))
 		return (draw_drivingx(env->image, start, end, deltax, deltay));
-	if (deltay > deltax)
+	if (abs(deltay) > abs(deltax))
 		return (draw_drivingy(env->image, start, end, deltax, deltay));
 }
 

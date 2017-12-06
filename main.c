@@ -22,6 +22,7 @@ t_session	*setup_environment(void)
 	env->win = mlx_new_window(env->mlx, W_HEIGHT, W_WIDTH, "fdf");
 	env->endian = ENDIAN;
 	mlx_key_hook(env->win, handle_keypress, env);
+	mlx_mouse_hook(env->win, handle_mouse, env);
 	return (env);
 }
 

@@ -69,9 +69,9 @@ typedef struct	s_map
 
 typedef struct	s_point
 {
-	int			x;
-	int			y;
-	int			z;
+	double		x;
+	double		y;
+	double		z;
 }				t_point;
 
 typedef struct	s_image
@@ -106,6 +106,7 @@ void			rotate_y(t_session *env, int keycode);
 void			rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
 void			pixel_to_image(t_image *image, int x, int y, int color);
+int				handle_mouse(int button, int x, int y, t_session *env);
 t_image			*new_image(t_session *env);
 void			clear_image(t_image *image);
 

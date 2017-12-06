@@ -17,7 +17,7 @@ static void		draw_vertical(t_session *env, t_point *start, t_point *end)
 	int		y;
 
 	y = start->y;
-	while (y != end->y)
+	while (y != (int) end->y)
 	{
 		pixel_to_image(env->image, start->x, y, LINE_COLOR);
 		y < end->y ? y++ : y--;
@@ -29,7 +29,7 @@ static void		draw_horizontal(t_session *env, t_point *start, t_point *end)
 	int		x;
 
 	x = start->x;
-	while (x != end->x)
+	while (x != (int) end->x)
 	{
 		pixel_to_image(env->image, x, start->y, LINE_COLOR);
 		x < end->x ? x++ : x--;

@@ -40,8 +40,8 @@ void	rotate_x(t_session *env, int keycode)
 {
 	int		i;
 	int		j;
-	int		y;
-	int		z;
+	double	y;
+	double	z;
 	int		direction;
 
 	j = 0;
@@ -51,8 +51,8 @@ void	rotate_x(t_session *env, int keycode)
 		i = 0;
 		while (env->points[j][i])
 		{
-			y = (double)env->points[j][i]->y;
-			z = (double)env->points[j][i]->z;
+			y = env->points[j][i]->y;
+			z = env->points[j][i]->z;
 			env->points[j][i]->y = (y * cos(ALPHA * direction)) - \
 				(z * sin(ALPHA * direction));
 			env->points[j][i]->z = (y * sin(ALPHA * direction)) + \
@@ -68,8 +68,8 @@ void	rotate_y(t_session *env, int keycode)
 {
 	int		i;
 	int		j;
-	int		x;
-	int		z;
+	double	x;
+	double	z;
 	int		direction;
 
 	j = 0;
@@ -96,8 +96,8 @@ void	rotate_z(t_session *env, int keycode)
 {
 	int		i;
 	int		j;
-	int		x;
-	int		y;
+	double	x;
+	double	y;
 	int		direction;
 
 	j = 0;

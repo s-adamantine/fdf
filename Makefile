@@ -14,7 +14,7 @@ NAME = fdf
 LIBNAME1 = libft.a #why do I have this here
 LIBNAME2 = libmlx.a #or this
 
-SRC = main.c input.c images.c draw.c keypress.c rotate.c lines.c
+SRC = main.c input.c images.c draw.c keypress.c rotate.c lines.c mouse.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

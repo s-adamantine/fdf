@@ -22,7 +22,7 @@ static void			exit_error(char *str)
 ** put into libft
 */
 
-int	ft_arrlen(char **arr)
+int					ft_arrlen(char **arr)
 {
 	int len;
 
@@ -34,11 +34,27 @@ int	ft_arrlen(char **arr)
 	return (len);
 }
 
+int		ft_strendsw(char *big, char *small)
+{
+	if (!big || !small || ft_strlen(big) < ft_strlen(small))
+		return (0);
+	big = big + ft_strlen(big) - 1;
+	small = small + ft_strlen(small) - 1;
+	while (*small)
+	{
+		if (*big-- == *small--)
+			;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 /*
 ** grabs variables about the map so that you can figure out how much to malloc.
 ** also checks if the successive number of columns are the same as the first
 ** row's columns.
-
+**
 ** check if the file only contains numbers and spaces, that you've got the same
 ** number of points in each line.
 */
@@ -47,14 +63,13 @@ t_map				*grab_input_parameters(char **argv)
 {
 	int		fd;
 	int		rows;
-	int		cols;
 	char	**line;
 	t_map	*map;
 
-	cols = 0;
-	rows = 1; //I shouldn't have to initialize this to 1 - should be 0? check gnl output.
+	rows = 1;
 	fd = open(argv[1], O_RDONLY);
-	if (!(map = (t_map *)malloc(sizeof(t_map))) || !(line = ft_memalloc(sizeof(char **))))
+	if (!(map = (t_map *)malloc(sizeof(t_map))) || \
+		!(line = ft_memalloc(sizeof(char **))))
 		return (NULL);
 	if (get_next_line(fd, line) <= 0)
 		exit_error("error: input file is either empty or does not exist.");
@@ -62,8 +77,7 @@ t_map				*grab_input_parameters(char **argv)
 	while (get_next_line(fd, line) > 0)
 	{
 		rows++;
-		cols = ft_arrlen(ft_strsplit(*line, ' '));
-		if (cols != map->cols)
+		if (ft_arrlen(ft_strsplit(*line, ' ')) != map->cols)
 			exit_error("error: differing numbers of points per line in input file.");
 	}
 	map->rows = rows;
@@ -74,6 +88,7 @@ t_map				*grab_input_parameters(char **argv)
 /*
 ** need to check for invalid characters here.
 */
+
 static t_point		***grab_points(int fd, char **line, t_map *map)
 {
 	int		i;
@@ -88,7 +103,7 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 	{
 		i = 0;
 		zvalues = ft_strsplit(*line, ' ');
-		points[j] = ft_memalloc(sizeof(t_point *)* (map->cols + 1));
+		points[j] = ft_memalloc(sizeof(t_point *) * (map->cols + 1));
 		while (zvalues[i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
@@ -105,6 +120,7 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 /*
 ** please change my name
 */
+
 t_point				***handle_input(int argc, char **argv, t_map *map)
 {
 	int			fd;
@@ -115,6 +131,8 @@ t_point				***handle_input(int argc, char **argv, t_map *map)
 		return (NULL);
 	if (argc != 2)
 		exit_error("usage: ./fdf source_file");
+	if (!ft_strendsw(argv[1], ".fdf"))
+		exit_error("error: not an .fdf file");
 	fd = open(argv[1], O_RDONLY);
 	points = grab_points(fd, line, map);
 	close(fd);

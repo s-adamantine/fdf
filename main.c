@@ -30,8 +30,6 @@ int			main(int argc, char **argv)
 {
 	t_session	*env;
 
-	if (argc)
-		printf("");
 	env = setup_environment();
 	env->map = grab_input_parameters(argv);
 	env->points = handle_input(argc, argv, env->map);

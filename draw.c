@@ -53,7 +53,7 @@ void			print_points(t_image *image, t_point ***points)
 		while (points[j][i])
 		{
 			pixel_to_image(image, points[j][i]->x, points[j][i]->y, \
-				 POINT_COLOR);
+				POINT_COLOR);
 			i++;
 		}
 		j++;

@@ -20,11 +20,11 @@ static void			exit_error(char *str)
 
 /*
 ** grabs variables about the map so that you can figure out how much to malloc.
-** also checks if the successive number of columns are the same as the first
-** row's columns.
-**
-** check if the file only contains numbers and spaces, that you've got the same
-** number of points in each line.
+** checks:
+** 1. if the successive number of columns are the same as the first row's
+** columns.
+** 2. if the file only contains numbers and spaces
+** 3. that you've got the same number of points in each line.
 */
 
 t_map				*grab_input_parameters(char **argv)
@@ -46,7 +46,8 @@ t_map				*grab_input_parameters(char **argv)
 	{
 		rows++;
 		if (ft_arrlen(ft_strsplit(*line, ' ')) != map->cols)
-			exit_error("error: differing numbers of points per line in input file");
+			exit_error("error: differing numbers of points per line in \
+				input file");
 	}
 	map->rows = rows;
 	close(fd);
@@ -78,19 +79,12 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 			points[j][i]->x = i * TILE_WIDTH;
 			points[j][i]->y = j * TILE_HEIGHT;
 			points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z;
-			while (*zvalues[i])
-				if (!ft_isdigit(*zvalues[i]++))
-					exit_error("error: input file contains invalid characters");
 			i++;
 		}
 		j++;
 	}
 	return (points);
 }
-
-/*
-** please change my name
-*/
 
 t_point				***handle_input(int argc, char **argv, t_map *map)
 {

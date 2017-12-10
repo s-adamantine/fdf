@@ -34,7 +34,6 @@ all: $(NAME)
 $(NAME):
 	@$(MAKE) -C $(LIBDIR1)
 	@$(MAKE) -C $(LIBDIR2)
-	#match libft's makefile w/ the one for fillit
 	$(CC) $(FLAGS) $(SRC) $(LIBS) $(INCLUDES) -o $(NAME)
 
 clean:

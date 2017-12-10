@@ -15,7 +15,6 @@
 
 # include <fcntl.h> //open
 # include <stdlib.h> //malloc, free
-# include <string.h> //strerror
 # include <stdio.h> //for printf
 # include <unistd.h> //for close, write
 # include <math.h>

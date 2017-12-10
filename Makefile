@@ -27,13 +27,15 @@ LIBS = $(LIB1) $(LIB2) $(LIBMATH)
 LIBDIR1 = libft/
 LIBDIR2 = minilibx_macos/
 
+INCLUDES = -I libft/includes -I minilibx_macos/
+
 all: $(NAME)
 
 $(NAME):
 	@$(MAKE) -C $(LIBDIR1)
 	@$(MAKE) -C $(LIBDIR2)
 	#match libft's makefile w/ the one for fillit
-	$(CC) $(FLAGS) $(SRC) $(LIBS) -I libft -I minilibx_macos/ -o $(NAME)
+	$(CC) $(FLAGS) $(SRC) $(LIBS) $(INCLUDES) -o $(NAME)
 
 clean:
 	@$(MAKE) clean -C $(LIBDIR1)

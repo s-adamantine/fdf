@@ -19,38 +19,6 @@ static void			exit_error(char *str)
 }
 
 /*
-** put into libft
-*/
-
-int					ft_arrlen(char **arr)
-{
-	int len;
-
-	len = 0;
-	if (!arr)
-		return (0);
-	while (arr[len])
-		len++;
-	return (len);
-}
-
-int		ft_strendsw(char *big, char *small)
-{
-	if (!big || !small || ft_strlen(big) < ft_strlen(small))
-		return (0);
-	big = big + ft_strlen(big) - 1;
-	small = small + ft_strlen(small) - 1;
-	while (*small)
-	{
-		if (*big-- == *small--)
-			;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-/*
 ** grabs variables about the map so that you can figure out how much to malloc.
 ** also checks if the successive number of columns are the same as the first
 ** row's columns.
@@ -72,13 +40,13 @@ t_map				*grab_input_parameters(char **argv)
 		!(line = ft_memalloc(sizeof(char **))))
 		return (NULL);
 	if (get_next_line(fd, line) <= 0)
-		exit_error("error: input file is either empty or does not exist.");
+		exit_error("error: input file is either empty or does not exist");
 	map->cols = ft_arrlen(ft_strsplit(*line, ' '));
 	while (get_next_line(fd, line) > 0)
 	{
 		rows++;
 		if (ft_arrlen(ft_strsplit(*line, ' ')) != map->cols)
-			exit_error("error: differing numbers of points per line in input file.");
+			exit_error("error: differing numbers of points per line in input file");
 	}
 	map->rows = rows;
 	close(fd);
@@ -110,6 +78,9 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 			points[j][i]->x = i * TILE_WIDTH;
 			points[j][i]->y = j * TILE_HEIGHT;
 			points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z;
+			while (*zvalues[i])
+				if (!ft_isdigit(*zvalues[i]++))
+					exit_error("error: input file contains invalid characters");
 			i++;
 		}
 		j++;

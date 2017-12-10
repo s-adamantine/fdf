@@ -33,7 +33,6 @@ void	translate(t_session *env, int keycode)
 		}
 		j++;
 	}
-	print_image(env);
 }
 
 void	rotate_x(t_session *env, int keycode)
@@ -61,7 +60,6 @@ void	rotate_x(t_session *env, int keycode)
 		}
 		j++;
 	}
-	print_image(env);
 }
 
 void	rotate_y(t_session *env, int keycode)
@@ -89,7 +87,6 @@ void	rotate_y(t_session *env, int keycode)
 		}
 		j++;
 	}
-	print_image(env);
 }
 
 void	rotate_z(t_session *env, int keycode)
@@ -117,5 +114,4 @@ void	rotate_z(t_session *env, int keycode)
 		}
 		j++;
 	}
-	print_image(env);
 }

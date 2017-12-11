@@ -30,9 +30,6 @@
 
 # define TRANSLATION 30
 
-# define BITSPP 24
-# define BYTESPP BITSPP / 8
-# define ENDIAN 0
 # define TOPX 100
 # define TOPY 100
 # define ALPHA 0.4

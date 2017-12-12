@@ -19,6 +19,31 @@ static void			exit_error(char *str)
 }
 
 /*
+** accepts hexas in the format ",0xFFFFFF"
+** rejects everything else.
+*/
+
+static int			valid_characters(char *z_value)
+{
+	int n;
+
+	n = 0;
+	while (*z_value && (ft_isdigit(*z_value) || *z_value == '-'))
+		z_value++;
+	if (*z_value)
+	{
+		if (*z_value == ',')
+		{
+			z_value++;
+			return (ft_ishexa(z_value) ? 1 : 0);
+		}
+		else
+			return (0);
+	}
+	return (1);
+}
+
+/*
 ** grabs variables about the map so that you can figure out how much to malloc.
 ** checks:
 ** 1. if the successive number of columns are the same as the first row's
@@ -46,17 +71,12 @@ t_map				*grab_input_parameters(char **argv)
 	{
 		rows++;
 		if (ft_arrlen(ft_strsplit(*line, ' ')) != map->cols)
-			exit_error("error: differing numbers of points per line in \
-				input file");
+			exit_error("error: differing numbers of points per line in input");
 	}
 	map->rows = rows;
 	close(fd);
 	return (map);
 }
-
-/*
-** need to check for invalid characters here.
-*/
 
 static t_point		***grab_points(int fd, char **line, t_map *map)
 {
@@ -70,16 +90,17 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 	j = 0;
 	while (get_next_line(fd, line) > 0)
 	{
-		i = 0;
+		i = -1;
 		zvalues = ft_strsplit(*line, ' ');
 		points[j] = ft_memalloc(sizeof(t_point *) * (map->cols + 1));
-		while (zvalues[i])
+		while (zvalues[++i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
 			points[j][i]->x = i * TILE_WIDTH;
 			points[j][i]->y = j * TILE_HEIGHT;
-			points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z;
-			i++;
+			valid_characters(zvalues[i]) == 1 ? \
+				points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z : \
+				exit_error("error: invalid characters");
 		}
 		j++;
 	}

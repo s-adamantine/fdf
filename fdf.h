@@ -6,24 +6,24 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 11:41:14 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:50 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/12/12 16:16:17 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <fcntl.h> //open
-# include <stdlib.h> //malloc, free
-# include <stdio.h> //for printf
-# include <unistd.h> //for close, write
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 # include <math.h>
 # include "mlx.h"
 # include "libft.h"
 # include "get_next_line.h"
 
-# define W_HEIGHT 600
-# define W_WIDTH 600
+# define W_HEIGHT 1200
+# define W_WIDTH 1200
 # define TILE_WIDTH 20
 # define TILE_HEIGHT 20
 # define TILE_Z 5

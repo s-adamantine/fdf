@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 11:39:00 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/17 16:06:53 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/12/12 16:14:08 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_session	*setup_environment(void)
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "fdf");
 	mlx_key_hook(env->win, handle_keypress, env);
-	mlx_mouse_hook(env->win, handle_mouse, env);
 	return (env);
 }
 

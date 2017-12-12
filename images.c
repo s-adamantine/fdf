@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void	clear_image(t_image *image)
+static void	clear_image(t_image *image)
 {
 	ft_bzero(image->pixel_addr, image->sline * W_HEIGHT);
 }
@@ -21,7 +21,6 @@ void	print_image(t_session *env)
 {
 	clear_image(env->image);
 	print_lines(env, env->map, env->points);
-	print_points(env->image, env->points);
 	mlx_put_image_to_window(env->mlx, env->win, env->image->init, IMG_LEFT, \
 		IMG_TOP);
 }

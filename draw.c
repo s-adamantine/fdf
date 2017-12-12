@@ -40,22 +40,3 @@ void			print_lines(t_session *env, t_map *map, t_point ***points)
 		j++;
 	}
 }
-
-void			print_points(t_image *image, t_point ***points)
-{
-	int		i;
-	int		j;
-
-	j = 0;
-	while (points[j])
-	{
-		i = 0;
-		while (points[j][i])
-		{
-			pixel_to_image(image, points[j][i]->x, points[j][i]->y, \
-				POINT_COLOR);
-			i++;
-		}
-		j++;
-	}
-}

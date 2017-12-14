@@ -12,12 +12,6 @@
 
 #include "fdf.h"
 
-static void			exit_error(char *str)
-{
-	ft_putendl_fd(str, 2);
-	exit(EXIT_FAILURE);
-}
-
 /*
 ** accepts hexas in the format ",0xFFFFFF"
 ** rejects everything else.
@@ -52,16 +46,13 @@ static int			valid_characters(char *z_value)
 ** 3. that you've got the same number of points in each line.
 */
 
-t_map				*grab_input_parameters(char **argv)
+t_map				*grab_input_parameters(int fd, char *line)
 {
-	int		fd;
 	int		rows;
 	char	**split_points;
-	char	*line = NULL;
 	t_map	*map;
 
 	rows = 1;
-	fd = open(argv[1], O_RDONLY);
 	if (!(map = (t_map *)malloc(sizeof(t_map))))
 		return (NULL);
 	if (get_next_line(fd, &line) <= 0)
@@ -69,7 +60,7 @@ t_map				*grab_input_parameters(char **argv)
 	split_points = ft_strsplit(line, ' ');
 	map->cols = ft_arrlen(split_points);
 	ft_freedarray((void **)split_points);
-	ft_strdel(&line);
+	free(line);
 	while (get_next_line(fd, &line) > 0)
 	{
 		rows++;
@@ -81,11 +72,10 @@ t_map				*grab_input_parameters(char **argv)
 	}
 	free(line);
 	map->rows = rows;
-	close(fd);
 	return (map);
 }
 
-static t_point		***grab_points(int fd, char **line, t_map *map)
+t_point				***grab_points(int fd, char *line, t_map *map)
 {
 	int		i;
 	int		j;
@@ -95,10 +85,10 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 	if (!(points = ft_memalloc(sizeof(t_point **) * (map->rows + 1))))
 		return (NULL);
 	j = 0;
-	while (get_next_line(fd, line) > 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		i = -1;
-		zvalues = ft_strsplit(*line, ' ');
+		zvalues = ft_strsplit(line, ' ');
 		points[j] = ft_memalloc(sizeof(t_point *) * (map->cols + 1));
 		while (zvalues[++i])
 		{
@@ -110,24 +100,8 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 				exit_error("error: invalid characters");
 		}
 		ft_freedarray((void **)zvalues);
-		ft_strdel(line);
+		free(line);
 		j++;
 	}
-	return (points);
-}
-
-t_point				***handle_input(int argc, char **argv, t_map *map)
-{
-	int			fd;
-	char		*line;
-	t_point		***points;
-
-	if (argc != 2)
-		exit_error("usage: ./fdf source_file");
-	if (!ft_strendsw(argv[1], ".fdf"))
-		exit_error("error: not an .fdf file");
-	fd = open(argv[1], O_RDONLY);
-	points = grab_points(fd, &line, map);
-	close(fd);
 	return (points);
 }

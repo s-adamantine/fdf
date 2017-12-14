@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
-# include <stdio.h>
 # include "mlx.h"
 # include "libft.h"
 # include "get_next_line.h"
@@ -87,8 +86,8 @@ typedef struct	s_session
 	t_point		***points;
 }				t_session;
 
-t_map			*grab_input_parameters(char **argv);
-t_point			***handle_input(int argc, char **argv, t_map *map);
+t_map			*grab_input_parameters(int fd, char *line);
+void			exit_error(char *str);
 void			print_image(t_session *env);
 int				handle_keypress(int keycode, t_session *env);
 void			connect_points(t_session *env, t_point *start, t_point *end);
@@ -99,5 +98,6 @@ void			rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
 void			pixel_to_image(t_image *image, int x, int y, int color);
 t_image			*new_image(t_session *env);
+t_point			***grab_points(int fd, char *line, t_map *map);
 
 #endif

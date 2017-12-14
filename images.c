@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-static void	clear_image(t_image *image)
+void	clear_image(t_image *image)
 {
 	ft_bzero(image->pixel_addr, image->sline * W_HEIGHT);
 }

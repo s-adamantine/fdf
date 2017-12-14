@@ -56,23 +56,30 @@ t_map				*grab_input_parameters(char **argv)
 {
 	int		fd;
 	int		rows;
-	char	**line;
+	char	**split_points;
+	char	*line = NULL;
 	t_map	*map;
 
 	rows = 1;
 	fd = open(argv[1], O_RDONLY);
-	if (!(map = (t_map *)malloc(sizeof(t_map))) || \
-		!(line = ft_memalloc(sizeof(char **))))
+	if (!(map = (t_map *)malloc(sizeof(t_map))))
 		return (NULL);
-	if (get_next_line(fd, line) <= 0)
+	if (get_next_line(fd, &line) <= 0)
 		exit_error("error: input file is either empty or does not exist");
-	map->cols = ft_arrlen(ft_strsplit(*line, ' '));
-	while (get_next_line(fd, line) > 0)
+	split_points = ft_strsplit(line, ' ');
+	map->cols = ft_arrlen(split_points);
+	ft_freedarray((void **)split_points);
+	ft_strdel(&line);
+	while (get_next_line(fd, &line) > 0)
 	{
 		rows++;
-		if (ft_arrlen(ft_strsplit(*line, ' ')) != map->cols)
+		split_points = ft_strsplit(line, ' ');
+		if (ft_arrlen(split_points) != map->cols)
 			exit_error("error: differing numbers of points per line in input");
+		ft_freedarray((void **)split_points);
+		free(line);
 	}
+	free(line);
 	map->rows = rows;
 	close(fd);
 	return (map);
@@ -102,6 +109,8 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 				points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z : \
 				exit_error("error: invalid characters");
 		}
+		ft_freedarray((void **)zvalues);
+		ft_strdel(line);
 		j++;
 	}
 	return (points);
@@ -110,17 +119,15 @@ static t_point		***grab_points(int fd, char **line, t_map *map)
 t_point				***handle_input(int argc, char **argv, t_map *map)
 {
 	int			fd;
-	char		**line;
+	char		*line;
 	t_point		***points;
 
-	if (!(line = ft_memalloc(sizeof(char **))))
-		return (NULL);
 	if (argc != 2)
 		exit_error("usage: ./fdf source_file");
 	if (!ft_strendsw(argv[1], ".fdf"))
 		exit_error("error: not an .fdf file");
 	fd = open(argv[1], O_RDONLY);
-	points = grab_points(fd, line, map);
+	points = grab_points(fd, &line, map);
 	close(fd);
 	return (points);
 }

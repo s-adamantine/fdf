@@ -33,6 +33,7 @@ int			main(int argc, char **argv)
 	env->points = handle_input(argc, argv, env->map);
 	env->image = new_image(env);
 	print_image(env);
+	free(env->image->pixel_addr);
 	mlx_loop(env->mlx);
 	return (0);
 }

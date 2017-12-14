@@ -45,7 +45,7 @@ t_session		*setup_environment(int argc, char **argv)
 	return (env);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_session	*env;
 

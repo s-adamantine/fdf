@@ -17,7 +17,7 @@
 ** rejects everything else.
 */
 
-static int			valid_characters(char *z_value)
+static int			valid_chars(char *z_value)
 {
 	int n;
 
@@ -82,26 +82,24 @@ t_point				***grab_points(int fd, char *line, t_map *map)
 	char	**zvalues;
 	t_point	***points;
 
-	if (!(points = ft_memalloc(sizeof(t_point **) * (map->rows + 1))))
-		return (NULL);
-	j = 0;
+	points = ft_memalloc(sizeof(t_point **) * (map->rows + 1));
+	j = -1;
 	while (get_next_line(fd, &line) > 0)
 	{
 		i = -1;
 		zvalues = ft_strsplit(line, ' ');
-		points[j] = ft_memalloc(sizeof(t_point *) * (map->cols + 1));
+		points[++j] = ft_memalloc(sizeof(t_point *) * (map->cols + 1));
 		while (zvalues[++i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
 			points[j][i]->x = i * TILE_WIDTH;
 			points[j][i]->y = j * TILE_HEIGHT;
-			valid_characters(zvalues[i]) == 1 ? \
-				points[j][i]->z = ft_atoi(zvalues[i]) * TILE_Z : \
-				exit_error("error: invalid characters");
+			valid_chars(zvalues[i]) ? points[j][i]->z = ft_atoi(zvalues[i]) \
+				* TILE_Z : exit_error("error: invalid characters");
 		}
 		ft_freedarray((void **)zvalues);
 		free(line);
-		j++;
 	}
+	free(line);
 	return (points);
 }

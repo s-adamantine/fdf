@@ -14,7 +14,7 @@ NAME = fdf
 LIBNAME1 = libft.a
 LIBNAME2 = libmlx.a
 
-SRC = main.c input.c images.c draw.c keypress.c rotate.c lines.c 
+SRC = main.c input.c images.c draw.c keypress.c rotate.c lines.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
@@ -45,3 +45,7 @@ fclean: clean
 	@rm -rf $(NAME) $(LIBDIR1)/$(LIBNAME1)
 
 re: fclean all
+
+pr:
+	@rm -rf $(NAME)
+	$(CC) $(FLAGS) $(SRC) $(LIBS) $(INCLUDES) -o $(NAME)

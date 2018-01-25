@@ -92,8 +92,8 @@ t_point				***grab_points(int fd, char *line, t_map *map)
 		while (zvalues[++i])
 		{
 			points[j][i] = ft_memalloc(sizeof(t_point));
-			points[j][i]->x = i * TILE_WIDTH;
-			points[j][i]->y = j * TILE_HEIGHT;
+			points[j][i]->x = i * TILE_SIZE;
+			points[j][i]->y = j * TILE_SIZE;
 			valid_chars(zvalues[i]) ? points[j][i]->z = ft_atoi(zvalues[i]) \
 				* TILE_Z : exit_error("error: invalid characters");
 		}

@@ -41,5 +41,7 @@ t_image	*new_image(t_session *env)
 	image->init = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
 	image->pixel_addr = mlx_get_data_addr(image->init, &(image->bpp), \
 		&(image->sline), &(env->endian));
+	image->tile_size = TILE_SIZE;
+	image->tile_z = TILE_Z;
 	return (image);
 }

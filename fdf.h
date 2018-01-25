@@ -23,8 +23,8 @@
 
 # define W_HEIGHT 1200
 # define W_WIDTH 1200
-# define TILE_WIDTH 20
-# define TILE_HEIGHT 20
+# define TILE_SIZE 20
+# define TILECHANGE 1.2
 # define TILE_Z 5
 
 # define TRANSLATION 30
@@ -49,6 +49,8 @@
 # define KEY_D 2
 # define KEY_APOSTROPHE 39
 # define KEY_FSLASH 44
+# define KEY_PLUS 24
+# define KEY_MINUS 27
 
 # define DRAW_XOFFSET 100
 # define DRAW_YOFFSET 100
@@ -74,6 +76,8 @@ typedef struct	s_image
 	int			sline;
 	void		*init;
 	char		*pixel_addr;
+	int			tile_size;
+	int			tile_z;
 }				t_image;
 
 typedef struct	s_session
@@ -96,6 +100,7 @@ void			rotate_x(t_session *env, int keycode);
 void			rotate_y(t_session *env, int keycode);
 void			rotate_z(t_session *env, int keycode);
 void			translate(t_session *env, int keycode);
+void			scale(t_session *env, int keycode);
 void			pixel_to_image(t_image *image, int x, int y, int color);
 t_image			*new_image(t_session *env);
 t_point			***grab_points(int fd, char *line, t_map *map);

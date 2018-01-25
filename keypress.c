@@ -14,9 +14,6 @@
 
 int		handle_keypress(int keycode, t_session *env)
 {
-	t_point	***points;
-
-	points = env->points;
 	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(env->mlx, env->win);
@@ -31,6 +28,8 @@ int		handle_keypress(int keycode, t_session *env)
 	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || \
 		keycode == KEY_D)
 		translate(env, keycode);
+	if (keycode == KEY_PLUS || keycode == KEY_MINUS)
+		scale(env, keycode);
 	print_image(env);
 	return (1);
 }

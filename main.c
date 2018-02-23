@@ -13,13 +13,23 @@
 #include "fdf.h"
 #include "mlx.h"
 
-void			exit_error(char *str)
+void				exit_error(char *str)
 {
 	ft_putendl_fd(str, 2);
 	exit(EXIT_FAILURE);
 }
 
-t_session		*setup_environment(int argc, char **argv)
+static t_screen		*setup_screen(void)
+{
+	t_screen	*screen;
+
+	screen = ft_memalloc(sizeof(t_screen));
+	screen->w = W_WIDTH;
+	screen->h = W_HEIGHT;
+	return (screen);
+}
+
+t_session			*setup_environment(int argc, char **argv)
 {
 	int			fd;
 	char		*line;
@@ -32,7 +42,8 @@ t_session		*setup_environment(int argc, char **argv)
 		exit_error("error: not an .fdf file");
 	env = ft_memalloc(sizeof(t_session));
 	env->mlx = mlx_init();
-	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "fdf");
+	env->screen = setup_screen();
+	env->win = mlx_new_window(env->mlx, env->screen->w, env->screen->h, "fdf");
 	fd = open(argv[1], O_RDONLY);
 	env->map = grab_input_parameters(fd, line);
 	close(fd);
@@ -40,7 +51,7 @@ t_session		*setup_environment(int argc, char **argv)
 	env->points = grab_points(fd, line, env->map);
 	close(fd);
 	env->image = new_image(env);
-	mlx_key_hook(env->win, handle_keypress, env);
+	mlx_hook(env->win, 2, 0, handle_keypress, env);
 	free(line);
 	return (env);
 }

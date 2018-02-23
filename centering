@@ -1,0 +1,12 @@
+find the center of the screen
+	move everything to an x offset that'll get the leftmost x to the center of the screen - distance_x/2.
+	move all the y spans t an y offset that'll get the topmost y to the center of the screen - distance_y/2.
+
+offset where the leftmost x should be:
+	c_x - distance_x / 2;
+
+offset where the topmost y should be:
+	c_y - distance_y / 2;
+
+the offset could be either to add everything by a number or to subtract everything by a number
+	find the difference between the leftmost x and the position where the lefrmost x should be.

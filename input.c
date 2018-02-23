@@ -100,6 +100,10 @@ t_point				***grab_points(int fd, char *line, t_map *map)
 		ft_freedarray((void **)zvalues);
 		free(line);
 	}
+	map->x_l = 0;
+	map->x_r = points[j][i - 1]->x;
+	map->y_t = 0;
+	map->y_b = points[j][i - 1]->y;
 	free(line);
 	return (points);
 }

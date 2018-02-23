@@ -21,6 +21,8 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+# define MAX_INT 
+
 # define W_HEIGHT 1200
 # define W_WIDTH 1200
 # define TILE_SIZE 20
@@ -61,6 +63,10 @@ typedef struct	s_map
 {
 	int			rows;
 	int			cols;
+	int			x_l;
+	int			x_r;
+	int			y_t;
+	int			y_b;
 }				t_map;
 
 typedef struct	s_point
@@ -80,12 +86,19 @@ typedef struct	s_image
 	int			tile_z;
 }				t_image;
 
+typedef struct	s_screen
+{
+	int			w;
+	int			h;
+}				t_screen;
+
 typedef struct	s_session
 {
 	void		*mlx;
 	void		*win;
 	int			endian;
 	t_map		*map;
+	t_screen	*screen;
 	t_image		*image;
 	t_point		***points;
 }				t_session;

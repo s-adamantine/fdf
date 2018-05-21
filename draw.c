@@ -43,30 +43,32 @@ static void		center(t_session *env)
 {
 	int		i;
 	int		j;
-	int		c_xl;
-	int		c_yt;
+	int		xl;
+	int		yt;
+	int		dx;
+	int		dy;
 	int		x_offset;
 	int		y_offset;
 
+	dx = 0;
+	dy = 0;
 	grab_minmax(env->map, env->points);
-	c_xl = (env->screen->w / 2) - ((env->map->x_r - abs(env->map->x_l)) / 2);
-	c_yt = (env->screen->h / 2) - ((env->map->y_b - abs(env->map->y_t)) / 2);
-	x_offset = c_xl - env->map->x_l;
-	y_offset = c_yt - env->map->y_t;
+	xl = (env->screen->w / 2) - ((env->map->x_r - env->map->x_l) / 2);
+	yt = (env->screen->h / 2) - ((env->map->y_b - env->map->y_t) / 2);
+	x_offset = xl - env->map->x_l;
+	y_offset = yt - env->map->y_t;
 	j = 0;
 	while (env->points[j])
 	{
 		i = 0;
 		while (env->points[j][i])
 		{
-			env->points[j][i]->x += (c_xl - env->map->x_l);
-			env->points[j][i]->y += (c_yt - env->map->y_t);
+			env->points[j][i]->x += (xl - env->map->x_l);
+			env->points[j][i]->y += (yt - env->map->y_t);
 			i++;
 		}
 		j++;
 	}
-	printf("xoffset: %d, yoffset: %d, xl: %d, xr: %d, yt: %d, yb: %d\n", x_offset, \
-			y_offset, env->map->x_l, env->map->x_r, env->map->y_t, env->map->y_b);
 }
 
 void			print_lines(t_session *env, t_map *map, t_point ***points)
